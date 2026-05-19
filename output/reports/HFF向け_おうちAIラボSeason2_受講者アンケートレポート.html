@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>おうちAIラボ Season2 受講者アンケートレポート</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    background: #f5f5f0;
+    color: #333;
+    line-height: 1.8;
+    font-size: 15px;
+  }
+  .cover {
+    background: linear-gradient(135deg, #6b4fa0 0%, #9b7fc8 50%, #c9a8e8 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+  }
+  .cover h1 { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
+  .cover .subtitle { font-size: 16px; opacity: 0.9; margin-bottom: 32px; }
+  .cover .meta {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+  }
+  .cover .meta-item {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .cover .meta-item strong { display: block; font-size: 22px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+  .section { background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section-title {
+    font-size: 18px; font-weight: 700;
+    color: #6b4fa0;
+    border-left: 4px solid #9b7fc8;
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+  .sub-title { font-size: 15px; font-weight: 700; color: #444; margin: 24px 0 12px; }
+  .chart-wrap { position: relative; height: 320px; margin: 16px 0 24px; }
+  .chart-wrap-small { position: relative; height: 260px; margin: 16px 0 24px; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .chart-row { grid-template-columns: 1fr; } }
+  .stat-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #f0ebff, #e8e0ff);
+    border-radius: 10px; padding: 16px; text-align: center;
+  }
+  .stat-card .num { font-size: 32px; font-weight: 700; color: #6b4fa0; }
+  .stat-card .label { font-size: 12px; color: #666; margin-top: 4px; }
+  .quote-block {
+    border-left: 3px solid #9b7fc8;
+    background: #faf9ff;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #444;
+  }
+  .keyword-list {
+    display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;
+  }
+  .keyword {
+    background: #ede8fa; color: #6b4fa0;
+    padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  }
+  .notice-box {
+    background: #fff8e1; border: 1px solid #ffd54f;
+    border-radius: 8px; padding: 14px 18px; margin: 12px 0; font-size: 14px;
+  }
+  .notice-box.good { background: #e8f5e9; border-color: #81c784; }
+  .notice-box.caution { background: #fff3e0; border-color: #ffb74d; }
+  .notice-box strong { display: block; margin-bottom: 4px; }
+  details {
+    margin: 12px 0;
+    background: #faf9ff;
+    border: 1px solid #e8e0ff;
+    border-radius: 8px;
+    padding: 0;
+  }
+  details summary {
+    cursor: pointer;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #6b4fa0;
+    font-weight: 600;
+    user-select: none;
+    list-style: none;
+    position: relative;
+  }
+  details summary::after {
+    content: '▼';
+    position: absolute;
+    right: 16px;
+    transition: transform 0.2s;
+    font-size: 11px;
+  }
+  details[open] summary::after { transform: rotate(180deg); }
+  details summary:hover { background: #f0ebff; border-radius: 8px; }
+  details[open] summary { border-bottom: 1px solid #e8e0ff; }
+  details .details-content { padding: 14px 18px; font-size: 13px; }
+  details table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  details th { background: #6b4fa0; color: white; padding: 7px 10px; text-align: left; }
+  details td { padding: 7px 10px; border-bottom: 1px solid #eee; }
+  details tr:nth-child(even) td { background: #faf9ff; }
+  .footer {
+    text-align: center; color: #999; font-size: 13px; padding: 32px 0;
+  }
+  p { margin-bottom: 10px; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>おうちAIラボ Season2<br>受講者アンケートレポート</h1>
+  <div class="subtitle">HEART FULL FAMILY 様向け共有版　｜　2026年5月19日作成</div>
+  <div class="meta">
+    <div class="meta-item"><strong>49名</strong>ユニーク回答者</div>
+    <div class="meta-item"><strong>全8回</strong>+ハンズオン3回</div>
+    <div class="meta-item"><strong>2/7〜3/28</strong>実施期間</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- セクション1: 参加状況 -->
+  <div class="section">
+    <div class="section-title">1. 開催概要と参加状況</div>
+
+    <div class="sub-title">回ごとの回答数推移</div>
+    <div class="chart-wrap">
+      <canvas id="participationChart"></canvas>
+    </div>
+
+    <div class="chart-row">
+      <div>
+        <div class="sub-title" style="margin-top:0;">参加方法の内訳</div>
+        <div class="chart-wrap-small">
+          <canvas id="joinMethodChart"></canvas>
+        </div>
+        <p style="font-size:13px;color:#666;">アーカイブ視聴が約6割。土曜開催のため、平日仕事・予定の入る受講者がアーカイブで継続参加できている形です。</p>
+      </div>
+      <div>
+        <div class="sub-title" style="margin-top:0;">ハンズオン回 参加数</div>
+        <div class="chart-wrap-small">
+          <canvas id="handsonChart"></canvas>
+        </div>
+        <p style="font-size:13px;color:#666;">ハンズオンは少人数で実施。質問しやすい環境が好評でした。</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>📊 詳細な回別回答数（クリックで展開）</summary>
+      <div class="details-content">
+        <table>
+          <thead><tr><th>回</th><th>開催日</th><th>回答数</th></tr></thead>
+          <tbody>
+            <tr><td>第1回</td><td>2/7（土）</td><td>34件</td></tr>
+            <tr><td>第2回</td><td>2/14（土）</td><td>30件</td></tr>
+            <tr><td>第3回</td><td>2/21（土）</td><td>27件</td></tr>
+            <tr><td>第4回</td><td>2/28（土）</td><td>21件</td></tr>
+            <tr><td>第5回</td><td>3/7（土）</td><td>28件</td></tr>
+            <tr><td>第6回</td><td>3/14（土）</td><td>23件</td></tr>
+            <tr><td>第7回</td><td>3/21（土）</td><td>23件</td></tr>
+            <tr><td>第8回（最終）</td><td>3/28（土）</td><td>24件</td></tr>
+            <tr><td>ハンズオン第1回</td><td>2/11（水）</td><td>9件</td></tr>
+            <tr><td>ハンズオン第2回</td><td>2/25（水）</td><td>12件</td></tr>
+            <tr><td>ハンズオン第3回</td><td>3/11（水）</td><td>10件</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <!-- セクション2: 満足度・理解度 -->
+  <div class="section">
+    <div class="section-title">2. 満足度・理解度の推移</div>
+
+    <div class="sub-title">本編 第1〜8回の推移</div>
+    <div class="chart-wrap">
+      <canvas id="satisfactionChart"></canvas>
+    </div>
+
+    <div class="notice-box good">
+      <strong>✅ ポジティブ傾向</strong>
+      第2回以降は満足度4.1以上を一貫して維持。後半（第5〜8回）は4.4〜4.6の高水準で安定しています。
+    </div>
+    <div class="notice-box caution">
+      <strong>⚠️ 改善余地</strong>
+      第1回の満足度は3.74で、入り口段階の不安感や「マインドセット部分の長さ」を指摘する声がありました。
+    </div>
+
+    <details>
+      <summary>📊 詳細スコアと評価分布（クリックで展開）</summary>
+      <div class="details-content">
+        <p style="font-weight:600;margin-bottom:8px;">講義満足度（5段階・本編）</p>
+        <table>
+          <thead><tr><th>回</th><th>平均</th><th>N</th><th>分布（1〜5）</th></tr></thead>
+          <tbody>
+            <tr><td>第1回</td><td>3.74</td><td>34</td><td>1:4, 2:3, 3:6, 4:6, 5:15</td></tr>
+            <tr><td>第2回</td><td>4.27</td><td>30</td><td>2:2, 3:2, 4:12, 5:14</td></tr>
+            <tr><td>第3回</td><td>4.11</td><td>27</td><td>2:1, 3:9, 4:3, 5:14</td></tr>
+            <tr><td>第4回</td><td>4.48</td><td>21</td><td>3:4, 4:3, 5:14</td></tr>
+            <tr><td>第5回 ★最高</td><td>4.61</td><td>28</td><td>3:2, 4:7, 5:19</td></tr>
+            <tr><td>第6回</td><td>4.39</td><td>23</td><td>2:1, 3:2, 4:7, 5:13</td></tr>
+            <tr><td>第7回</td><td>4.48</td><td>23</td><td>3:3, 4:6, 5:14</td></tr>
+            <tr><td>第8回（最終）</td><td>4.54</td><td>24</td><td>3:3, 4:5, 5:16</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-weight:600;margin:14px 0 8px;">AI理解度（5段階・本編）</p>
+        <table>
+          <thead><tr><th>回</th><th>平均</th><th>N</th></tr></thead>
+          <tbody>
+            <tr><td>第1回</td><td>3.94</td><td>17</td></tr>
+            <tr><td>第2回</td><td>4.11</td><td>28</td></tr>
+            <tr><td>第3回</td><td>3.78</td><td>27</td></tr>
+            <tr><td>第4回</td><td>4.00</td><td>21</td></tr>
+            <tr><td>第5回</td><td>4.18</td><td>28</td></tr>
+            <tr><td>第6回</td><td>4.26</td><td>23</td></tr>
+            <tr><td>第7回 ★最高</td><td>4.43</td><td>23</td></tr>
+            <tr><td>第8回</td><td>4.25</td><td>24</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-weight:600;margin:14px 0 8px;">ハンズオン回 評価</p>
+        <table>
+          <thead><tr><th>回</th><th>満足度</th><th>理解度</th></tr></thead>
+          <tbody>
+            <tr><td>ハンズオン1</td><td>3.44 (N=9)</td><td>4.00 (N=8)</td></tr>
+            <tr><td>ハンズオン2</td><td>3.50 (N=12)</td><td>4.30 (N=10)</td></tr>
+            <tr><td>ハンズオン3</td><td>4.20 (N=10)</td><td>4.50 (N=10)</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:8px;font-size:13px;color:#666;">ハンズオン第1回は案内メール未着の事象があり、満足度に影響した可能性があります。第3回は4.2まで改善。</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- セクション3: 期間延長の効果 -->
+  <div class="section">
+    <div class="section-title">3. 期間延長による完走率の上昇</div>
+
+    <p>受講者からの「もう少し時間をかけて学びたい」というお声を受け、アーカイブ視聴期間・修了証の発行期間を <strong>4月30日 → 5月10日（日）</strong> まで延長しました。</p>
+
+    <div class="sub-title">完走者数の推移</div>
+    <div class="chart-wrap">
+      <canvas id="completionChart"></canvas>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="num">8名</div><div class="label">4/7時点 完走者<br>（12.7%）</div></div>
+      <div class="stat-card"><div class="num">17名</div><div class="label">4/30時点 完走者<br>（27.0%）</div></div>
+      <div class="stat-card"><div class="num">27名</div><div class="label">5/10最終 完走者<br>（43.0%）</div></div>
+    </div>
+
+    <div class="notice-box good">
+      <strong>✅ 延長による主な変化</strong>
+      <ul style="margin-top:8px;">
+        <li>完走者数が <strong>8名 → 27名</strong> と約3.4倍に増加（対象63名中）</li>
+        <li>完走率は <strong>12.7% → 43.0%</strong> へ上昇（+30.3ポイント）</li>
+        <li>5/1〜5/10の延長期間中に新たに <strong>10名が完走</strong></li>
+        <li>5/1以降にアクティブだった受講生は <strong>18名</strong>（アーカイブ駆け込み視聴・最終確認）</li>
+        <li>アンケート平均満足度: 4/7時点 4.02 → 4/30時点 4.14（+0.12）</li>
+        <li>アンケート平均理解度: 4/7時点 3.94 → 4/30時点 4.02（+0.08）</li>
+      </ul>
+    </div>
+
+    <p>「アーカイブで時間をかけてしっかり理解したい」というニーズに応えた結果、満足度・理解度の数値も改善しました。受講者の自主学習を後押しする運営判断が、最終的な完走率に直接反映された形です。</p>
+
+    <details>
+      <summary>📊 完走者の内訳・期間別アクティブ数（クリックで展開）</summary>
+      <div class="details-content">
+        <table>
+          <thead><tr><th>時点</th><th>完走者数</th><th>完走率</th><th>新規完走</th></tr></thead>
+          <tbody>
+            <tr><td>4/7時点</td><td>8名</td><td>12.7%</td><td>—</td></tr>
+            <tr><td>4/30時点（元期限）</td><td>17名</td><td>27.0%</td><td>+9名</td></tr>
+            <tr><td>5/10時点（延長後・最終）</td><td>27名</td><td>43.0%</td><td>+10名</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:10px;font-size:13px;color:#666;">
+          ※ 完走の定義: S2本編【第1〜8回】全てに1回以上アクセス<br>
+          ※ 対象: 63名（キャンセル者除く）<br>
+          ※ 5/1以降のアクティブ受講生18名のうち、10名が新たに完走に至りました
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <!-- セクション4: 成果・変化 -->
+  <div class="section">
+    <div class="section-title">4. 受講者の成果・変化</div>
+
+    <div class="sub-title">具体的な行動・収益化の声</div>
+
+    <div class="quote-block">
+      「1回目でクラウドワークスの話題があって、地味にトライし続けていました。おかげ様で<strong>ライティングの継続案件をいただけて、少しですが収益化できました。</strong>」
+    </div>
+    <div class="quote-block">
+      「Instagramとスレッズを看板にココナラスキルマーケットに出品しました。選択肢を増やしていただけたこと、とても助かりました。」
+    </div>
+    <div class="quote-block">
+      「自分の強み探しから出品とX投稿、分析まで出来るようになりました。」
+    </div>
+    <div class="quote-block">
+      「8週間を通して、AI技術だけではなく、自分のマインドアップやモチベーション維持になった。<strong>AIが楽し過ぎて、SHIFT AIの会員になっちゃいました。</strong>」
+    </div>
+    <div class="quote-block">
+      「外国語を自分のものにしたような感覚…とまでは言い過ぎかもしれませんが、たくさんの単語も覚えたし、何より<strong>AIとの関わり方が劇的に変わった</strong>」
+    </div>
+    <div class="quote-block">
+      「2ヶ月前はこんなに毎日AIにふれると思っていませんでした。AIを活用することで世界が広がることがわかり、参加して良かった。」
+    </div>
+    <div class="quote-block">
+      「いつもつまずく箇所で講義があるので、<strong>途中で投げ出さずにここまで来れました。</strong>」
+    </div>
+
+    <div class="sub-title">印象に残ったキーワード（複数受講者から）</div>
+    <div class="keyword-list">
+      <span class="keyword">迷ったらAIに聞く</span>
+      <span class="keyword">AIを相棒にする</span>
+      <span class="keyword">アウトプットの大切さ</span>
+      <span class="keyword">点が線になる</span>
+      <span class="keyword">継続できる人は5%</span>
+      <span class="keyword">辞めてしまう人は92%</span>
+      <span class="keyword">Gemの作り方</span>
+      <span class="keyword">miricanva</span>
+    </div>
+  </div>
+
+  <!-- セクション4: 最終回の声 -->
+  <div class="section">
+    <div class="section-title">5. 最終回（第8回）に寄せられた声</div>
+
+    <p>第8回の自由記述欄には、10件のうち9件が感謝・継続意向のメッセージでした。受講者の率直な声を一部抜粋してご紹介します。</p>
+
+    <div class="quote-block">
+      「8週間ありがとうございました。再度アーカイブを見直して続けていきたいです！！！<strong>また3回目があるのを心待ちにしています。</strong>」
+    </div>
+    <div class="quote-block">
+      「無事に最終回まで全て参加することができました！<strong>この2カ月で、AIとの関わり方が劇的に変わったことで、今後の楽しみがまだまだ湧いてきている状態です。</strong>講師の皆さん、スタッフの皆さん、本当にありがとうございました。」
+    </div>
+    <div class="quote-block">
+      「毎回とても学びになる講義を作って頂いてありがとうございました。<strong>miricanvaが特に楽しかったです。</strong>」
+    </div>
+    <div class="quote-block">
+      「2ヶ月間ありがとうございました。今後はSHIFT AIでさらに勉強していきたいと思っています。」
+    </div>
+    <div class="quote-block">
+      「ありがとうございました。また機会がありましたらよろしくお願いします。」
+    </div>
+  </div>
+
+  <!-- セクション5: 総括 -->
+  <div class="section">
+    <div class="section-title">6. 全体総括</div>
+
+    <div class="notice-box good">
+      <strong>✅ Season2を通じて見えたこと</strong>
+      <ul style="margin-top:8px;">
+        <li>第2回以降、満足度4.1以上を一貫して維持</li>
+        <li>視聴期間延長により完走者が <strong>8名 → 27名</strong>（完走率12.7% → 43.0%）まで拡大</li>
+        <li>受講者の中から具体的な収益化事例・行動継続事例が複数生まれた</li>
+        <li>「迷ったらAIに聞く」「継続5%」など共通のキーワードが複数受講者に刺さっている</li>
+        <li>最終回には次期開催への期待コメントが多数寄せられた</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- セクション6: 補足 -->
+  <div class="section">
+    <div class="section-title">7. データ管理について</div>
+    <ul>
+      <li>本レポートは HEART FULL FAMILY 会員の回答のみを集計対象としています（SHIFT AI 会員回答は分離済み）。</li>
+      <li>メールアドレスは全てマスキング処理済み。</li>
+      <li>元データは個人情報保護のため本レポートへの添付対象外です。必要に応じて別途共有可能。</li>
+      <li>自由記述の全件原文は内部資料として別途保管しています。</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  作成: 2026-05-19<br>
+  ※ 本資料はHEART FULL FAMILY 様との情報共有を目的として作成されたものです
+</div>
+
+<script>
+const purpleColors = {
+  primary: '#6b4fa0',
+  secondary: '#9b7fc8',
+  light: '#c9a8e8',
+  pale: '#e8e0ff',
+  bg: '#faf9ff'
+};
+
+// 共通設定
+Chart.defaults.font.family = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif";
+Chart.defaults.color = '#555';
+
+// 1. 回答数推移（棒グラフ）
+new Chart(document.getElementById('participationChart'), {
+  type: 'bar',
+  data: {
+    labels: ['第1回', '第2回', '第3回', '第4回', '第5回', '第6回', '第7回', '第8回'],
+    datasets: [{
+      label: '回答数',
+      data: [34, 30, 27, 21, 28, 23, 23, 24],
+      backgroundColor: '#9b7fc8',
+      borderColor: '#6b4fa0',
+      borderWidth: 1,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => `${c.parsed.y}件` } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: '#f0ebff' },
+        title: { display: true, text: '回答数（件）' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 2. 参加方法（ドーナツ）
+new Chart(document.getElementById('joinMethodChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['アーカイブ視聴', 'リアルタイム参加'],
+    datasets: [{
+      data: [150, 91],
+      backgroundColor: ['#6b4fa0', '#c9a8e8'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 14, font: { size: 13 } } },
+      tooltip: {
+        callbacks: {
+          label: (c) => {
+            const total = c.dataset.data.reduce((a, b) => a + b, 0);
+            const pct = ((c.parsed / total) * 100).toFixed(1);
+            return `${c.label}: ${c.parsed}件 (${pct}%)`;
+          }
+        }
+      }
+    }
+  }
+});
+
+// 3. ハンズオン回（棒グラフ）
+new Chart(document.getElementById('handsonChart'), {
+  type: 'bar',
+  data: {
+    labels: ['ハンズオン1', 'ハンズオン2', 'ハンズオン3'],
+    datasets: [{
+      label: '回答数',
+      data: [9, 12, 10],
+      backgroundColor: '#c9a8e8',
+      borderColor: '#9b7fc8',
+      borderWidth: 1,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => `${c.parsed.y}件` } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: '#f0ebff' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 4. 完走者推移（棒グラフ・延長効果）
+new Chart(document.getElementById('completionChart'), {
+  type: 'bar',
+  data: {
+    labels: ['4/7時点', '4/30時点\n（元期限）', '5/10時点\n（延長後・最終）'],
+    datasets: [
+      {
+        label: '完走者数',
+        data: [8, 17, 27],
+        backgroundColor: ['#c9a8e8', '#9b7fc8', '#6b4fa0'],
+        borderColor: '#6b4fa0',
+        borderWidth: 1,
+        borderRadius: 6,
+        yAxisID: 'y'
+      },
+      {
+        label: '完走率（%）',
+        data: [12.7, 27.0, 43.0],
+        type: 'line',
+        borderColor: '#d49aa6',
+        backgroundColor: 'rgba(212, 154, 166, 0.2)',
+        borderWidth: 3,
+        tension: 0.3,
+        pointRadius: 6,
+        pointBackgroundColor: '#d49aa6',
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { padding: 14, font: { size: 13 } } },
+      tooltip: {
+        callbacks: {
+          label: (c) => c.dataset.label === '完走率（%）' ? `完走率: ${c.parsed.y}%` : `完走者: ${c.parsed.y}名`
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 35,
+        grid: { color: '#f0ebff' },
+        title: { display: true, text: '完走者数（名）' },
+        position: 'left'
+      },
+      y1: {
+        beginAtZero: true,
+        max: 50,
+        grid: { display: false },
+        title: { display: true, text: '完走率（%）' },
+        position: 'right'
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 5. 満足度・理解度の推移（折れ線）
+new Chart(document.getElementById('satisfactionChart'), {
+  type: 'line',
+  data: {
+    labels: ['第1回', '第2回', '第3回', '第4回', '第5回', '第6回', '第7回', '第8回'],
+    datasets: [
+      {
+        label: '講義満足度',
+        data: [3.74, 4.27, 4.11, 4.48, 4.61, 4.39, 4.48, 4.54],
+        borderColor: '#6b4fa0',
+        backgroundColor: 'rgba(107, 79, 160, 0.15)',
+        borderWidth: 3,
+        tension: 0.35,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#6b4fa0',
+        fill: true
+      },
+      {
+        label: 'AI理解度',
+        data: [3.94, 4.11, 3.78, 4.00, 4.18, 4.26, 4.43, 4.25],
+        borderColor: '#d49aa6',
+        backgroundColor: 'rgba(212, 154, 166, 0.15)',
+        borderWidth: 3,
+        tension: 0.35,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#d49aa6',
+        borderDash: [5, 3]
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { padding: 14, font: { size: 13 } } },
+      tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y.toFixed(2)}` } }
+    },
+    scales: {
+      y: {
+        min: 3.0,
+        max: 5.0,
+        grid: { color: '#f0ebff' },
+        title: { display: true, text: '評価（5段階）' }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
