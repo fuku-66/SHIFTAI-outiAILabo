@@ -136,10 +136,11 @@
   <div class="section">
     <div class="section-title">1. 開催概要と参加状況</div>
 
-    <div class="sub-title">回ごとの回答数推移</div>
+    <div class="sub-title">回ごとの回答数・参加率の推移</div>
     <div class="chart-wrap">
       <canvas id="participationChart"></canvas>
     </div>
+    <p style="font-size:13px;color:#666;margin-top:-8px;">※ 参加率は対象 <strong>63名</strong>（キャンセル者除く）に対する各回アンケート回答者の割合</p>
 
     <div class="chart-row">
       <div>
@@ -162,16 +163,16 @@
       <summary>📊 詳細な回別回答数（クリックで展開）</summary>
       <div class="details-content">
         <table>
-          <thead><tr><th>回</th><th>開催日</th><th>回答数</th></tr></thead>
+          <thead><tr><th>回</th><th>開催日</th><th>回答数</th><th>参加率（対象63名）</th></tr></thead>
           <tbody>
-            <tr><td>第1回</td><td>2/7（土）</td><td>34件</td></tr>
-            <tr><td>第2回</td><td>2/14（土）</td><td>30件</td></tr>
-            <tr><td>第3回</td><td>2/21（土）</td><td>27件</td></tr>
-            <tr><td>第4回</td><td>2/28（土）</td><td>21件</td></tr>
-            <tr><td>第5回</td><td>3/7（土）</td><td>28件</td></tr>
-            <tr><td>第6回</td><td>3/14（土）</td><td>23件</td></tr>
-            <tr><td>第7回</td><td>3/21（土）</td><td>23件</td></tr>
-            <tr><td>第8回（最終）</td><td>3/28（土）</td><td>24件</td></tr>
+            <tr><td>第1回</td><td>2/7（土）</td><td>34件</td><td>54.0%</td></tr>
+            <tr><td>第2回</td><td>2/14（土）</td><td>30件</td><td>47.6%</td></tr>
+            <tr><td>第3回</td><td>2/21（土）</td><td>27件</td><td>42.9%</td></tr>
+            <tr><td>第4回</td><td>2/28（土）</td><td>21件</td><td>33.3%</td></tr>
+            <tr><td>第5回</td><td>3/7（土）</td><td>28件</td><td>44.4%</td></tr>
+            <tr><td>第6回</td><td>3/14（土）</td><td>23件</td><td>36.5%</td></tr>
+            <tr><td>第7回</td><td>3/21（土）</td><td>23件</td><td>36.5%</td></tr>
+            <tr><td>第8回（最終）</td><td>3/28（土）</td><td>24件</td><td>38.1%</td></tr>
             <tr><td>ハンズオン第1回</td><td>2/11（水）</td><td>9件</td></tr>
             <tr><td>ハンズオン第2回</td><td>2/25（水）</td><td>12件</td></tr>
             <tr><td>ハンズオン第3回</td><td>3/11（水）</td><td>10件</td></tr>
@@ -252,10 +253,11 @@
 
     <p>受講者からの「もう少し時間をかけて学びたい」というお声を受け、アーカイブ視聴期間・修了証の発行期間を <strong>4月30日 → 5月10日（日）</strong> まで延長しました。</p>
 
-    <div class="sub-title">完走者数の推移</div>
+    <div class="sub-title">完走者数・完走率の推移（対象63名）</div>
     <div class="chart-wrap">
       <canvas id="completionChart"></canvas>
     </div>
+    <p style="font-size:13px;color:#666;margin-top:-8px;">※ 完走の定義: S2本編【第1〜8回】全てに1回以上アクセス　　※ 完走率は対象 <strong>63名</strong>（キャンセル者除く）に対する割合</p>
 
     <div class="stat-grid">
       <div class="stat-card"><div class="num">8名</div><div class="label">4/7時点 完走者<br>（12.7%）</div></div>
@@ -408,32 +410,69 @@ const purpleColors = {
 Chart.defaults.font.family = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif";
 Chart.defaults.color = '#555';
 
-// 1. 回答数推移（棒グラフ）
+// 1. 回答数+参加率推移（棒+折れ線・二軸）
 new Chart(document.getElementById('participationChart'), {
   type: 'bar',
   data: {
     labels: ['第1回', '第2回', '第3回', '第4回', '第5回', '第6回', '第7回', '第8回'],
-    datasets: [{
-      label: '回答数',
-      data: [34, 30, 27, 21, 28, 23, 23, 24],
-      backgroundColor: '#9b7fc8',
-      borderColor: '#6b4fa0',
-      borderWidth: 1,
-      borderRadius: 6
-    }]
+    datasets: [
+      {
+        type: 'bar',
+        label: '回答数（件）',
+        data: [34, 30, 27, 21, 28, 23, 23, 24],
+        backgroundColor: '#c9a8e8',
+        borderColor: '#9b7fc8',
+        borderWidth: 1,
+        borderRadius: 6,
+        yAxisID: 'y',
+        order: 2
+      },
+      {
+        type: 'line',
+        label: '参加率（%・対象63名）',
+        data: [54.0, 47.6, 42.9, 33.3, 44.4, 36.5, 36.5, 38.1],
+        borderColor: '#6b4fa0',
+        backgroundColor: '#6b4fa0',
+        borderWidth: 3,
+        pointRadius: 5,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: '#6b4fa0',
+        pointBorderWidth: 2,
+        tension: 0.3,
+        yAxisID: 'y1',
+        order: 1
+      }
+    ]
   },
   options: {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: (c) => `${c.parsed.y}件` } }
+      legend: { position: 'top', labels: { padding: 14, font: { size: 13 }, usePointStyle: true } },
+      tooltip: {
+        callbacks: {
+          label: (c) => {
+            if (c.dataset.type === 'line') return `参加率: ${c.parsed.y}%`;
+            return `回答数: ${c.parsed.y}件`;
+          }
+        }
+      }
     },
     scales: {
       y: {
         beginAtZero: true,
+        position: 'left',
         grid: { color: '#f0ebff' },
-        title: { display: true, text: '回答数（件）' }
+        title: { display: true, text: '回答数（件）' },
+        suggestedMax: 40
+      },
+      y1: {
+        beginAtZero: true,
+        position: 'right',
+        max: 100,
+        grid: { drawOnChartArea: false },
+        title: { display: true, text: '参加率（%）' },
+        ticks: { callback: (v) => v + '%' }
       },
       x: { grid: { display: false } }
     }
