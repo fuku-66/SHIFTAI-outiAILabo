@@ -249,29 +249,39 @@
 
   <!-- セクション3: 期間延長の効果 -->
   <div class="section">
-    <div class="section-title">3. 期間延長による完走率の上昇</div>
+    <div class="section-title">3. 期間延長による視聴・修了の状況</div>
 
     <p>受講者からの「もう少し時間をかけて学びたい」というお声を受け、アーカイブ視聴期間・修了証の発行期間を <strong>4月30日 → 5月10日（日）</strong> まで延長しました。</p>
 
-    <div class="sub-title">完走者数・完走率の推移（対象63名）</div>
+    <div class="sub-title">視聴完走者数・視聴完走率の推移（対象63名）</div>
     <div class="chart-wrap">
       <canvas id="completionChart"></canvas>
     </div>
-    <p style="font-size:13px;color:#666;margin-top:-8px;">※ 完走の定義: S2本編【第1〜8回】全てに1回以上アクセス　　※ 完走率は対象 <strong>63名</strong>（キャンセル者除く）に対する割合</p>
+    <p style="font-size:13px;color:#666;margin-top:-8px;">※ 視聴完走の定義: 本編【第1〜8回】全てに1回以上アクセス（=学習継続の指標）　　※ 視聴完走率は対象 <strong>63名</strong>（キャンセル者除く）に対する割合</p>
 
     <div class="stat-grid">
-      <div class="stat-card"><div class="num">8名</div><div class="label">4/7時点 完走者<br>（12.7%）</div></div>
-      <div class="stat-card"><div class="num">17名</div><div class="label">4/30時点 完走者<br>（27.0%）</div></div>
-      <div class="stat-card"><div class="num">27名</div><div class="label">5/10最終 完走者<br>（43.0%）</div></div>
+      <div class="stat-card"><div class="num">8名</div><div class="label">4/7時点 視聴完走者<br>（12.7%）</div></div>
+      <div class="stat-card"><div class="num">17名</div><div class="label">4/30時点 視聴完走者<br>（27.0%）</div></div>
+      <div class="stat-card"><div class="num">27名</div><div class="label">5/10最終 視聴完走者<br>（43.0%）</div></div>
     </div>
+
+    <div class="sub-title" style="margin-top:28px;">修了証受領者</div>
+    <p>本編全8回のアンケート提出を完了し、<strong>修了証を授与</strong>した方の人数です。</p>
+    <div class="stat-grid">
+      <div class="stat-card" style="background:linear-gradient(135deg,#f3eaff,#e7d5fa);"><div class="num">11名</div><div class="label">修了証受領者<br>（対象63名中・17.5%）</div></div>
+      <div class="stat-card" style="background:linear-gradient(135deg,#f3eaff,#e7d5fa);"><div class="num">100%</div><div class="label">全8回パーフェクト<br>提出率</div></div>
+      <div class="stat-card" style="background:linear-gradient(135deg,#f3eaff,#e7d5fa);"><div class="num">8回</div><div class="label">修了要件<br>（本編アンケート提出回数）</div></div>
+    </div>
+    <p style="font-size:13px;color:#666;margin-top:6px;">※ 修了証要件: 本編【第1〜8回】の全アンケート提出（ハンズオン回は対象外）<br>※ 視聴完走者（27名）は「本編全回に1回以上アクセスした方」で、修了証受領要件とは別指標です</p>
 
     <div class="notice-box good">
       <strong>✅ 延長による主な変化</strong>
       <ul style="margin-top:8px;">
-        <li>完走者数が <strong>8名 → 27名</strong> と約3.4倍に増加（対象63名中）</li>
-        <li>完走率は <strong>12.7% → 43.0%</strong> へ上昇（+30.3ポイント）</li>
-        <li>5/1〜5/10の延長期間中に新たに <strong>10名が完走</strong></li>
+        <li>視聴完走者数が <strong>8名 → 27名</strong> と約3.4倍に増加（対象63名中）</li>
+        <li>視聴完走率は <strong>12.7% → 43.0%</strong> へ上昇（+30.3ポイント）</li>
+        <li>5/1〜5/10の延長期間中に新たに <strong>10名が視聴完走</strong></li>
         <li>5/1以降にアクティブだった受講生は <strong>18名</strong>（アーカイブ駆け込み視聴・最終確認）</li>
+        <li>修了証は最終的に <strong>11名</strong> に授与（本編全8回のアンケート提出を達成）</li>
         <li>アンケート平均満足度: 4/7時点 4.02 → 4/30時点 4.14（+0.12）</li>
         <li>アンケート平均理解度: 4/7時点 3.94 → 4/30時点 4.02（+0.08）</li>
       </ul>
@@ -280,20 +290,35 @@
     <p>「アーカイブで時間をかけてしっかり理解したい」というニーズに応えた結果、満足度・理解度の数値も改善しました。受講者の自主学習を後押しする運営判断が、最終的な完走率に直接反映された形です。</p>
 
     <details>
-      <summary>📊 完走者の内訳・期間別アクティブ数（クリックで展開）</summary>
+      <summary>📊 視聴完走者・修了証受領者の内訳（クリックで展開）</summary>
       <div class="details-content">
+        <p style="font-weight:600;margin-bottom:6px;">視聴完走者の推移</p>
         <table>
-          <thead><tr><th>時点</th><th>完走者数</th><th>完走率</th><th>新規完走</th></tr></thead>
+          <thead><tr><th>時点</th><th>視聴完走者数</th><th>視聴完走率</th><th>新規完走</th></tr></thead>
           <tbody>
             <tr><td>4/7時点</td><td>8名</td><td>12.7%</td><td>—</td></tr>
             <tr><td>4/30時点（元期限）</td><td>17名</td><td>27.0%</td><td>+9名</td></tr>
             <tr><td>5/10時点（延長後・最終）</td><td>27名</td><td>43.0%</td><td>+10名</td></tr>
           </tbody>
         </table>
+
+        <p style="font-weight:600;margin:14px 0 6px;">修了証受領者の内訳</p>
+        <table>
+          <thead><tr><th>区分</th><th>人数</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td>修了証受領（本編全8回アンケート提出）</td><td><strong>11名</strong></td><td>対象63名中 17.5%</td></tr>
+            <tr><td>あと1回で受領（7回提出）</td><td>5名</td><td>—</td></tr>
+            <tr><td>本編6回提出</td><td>1名</td><td>—</td></tr>
+            <tr><td>本編5回提出</td><td>3名</td><td>—</td></tr>
+            <tr><td>本編1〜4回提出</td><td>28名</td><td>—</td></tr>
+          </tbody>
+        </table>
+
         <p style="margin-top:10px;font-size:13px;color:#666;">
-          ※ 完走の定義: S2本編【第1〜8回】全てに1回以上アクセス<br>
+          ※ <strong>視聴完走</strong>: 本編全回に1回以上アクセス（学習継続の指標）<br>
+          ※ <strong>修了証受領</strong>: 本編全8回のアンケート提出（修了の正式要件）<br>
           ※ 対象: 63名（キャンセル者除く）<br>
-          ※ 5/1以降のアクティブ受講生18名のうち、10名が新たに完走に至りました
+          ※ 5/1以降のアクティブ受講生18名のうち、10名が新たに視聴完走に至りました
         </p>
       </div>
     </details>
@@ -371,7 +396,7 @@
       <strong>✅ Season2を通じて見えたこと</strong>
       <ul style="margin-top:8px;">
         <li>第2回以降、満足度4.1以上を一貫して維持</li>
-        <li>視聴期間延長により完走者が <strong>8名 → 27名</strong>（完走率12.7% → 43.0%）まで拡大</li>
+        <li>視聴期間延長により視聴完走者が <strong>8名 → 27名</strong>（完走率12.7% → 43.0%）まで拡大、修了証は <strong>11名</strong> に授与</li>
         <li>受講者の中から具体的な収益化事例・行動継続事例が複数生まれた</li>
         <li>「迷ったらAIに聞く」「継続5%」など共通のキーワードが複数受講者に刺さっている</li>
         <li>最終回には次期開催への期待コメントが多数寄せられた</li>
