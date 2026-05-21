@@ -225,7 +225,7 @@
 
 <!-- 01: Section Divider Chapter 1 -->
 <div class="slide section-divider">
-  <div class="slide-num">01 / 38</div>
+  <div class="slide-num">1 / 41</div>
   <div class="slide-time">0:00</div>
   <div class="bar"></div>
   <div class="left">
@@ -238,7 +238,7 @@
 
 <!-- 02: ゴール -->
 <div class="slide">
-  <div class="slide-num">02 / 38</div>
+  <div class="slide-num">2 / 41</div>
   <div class="slide-time">0:00</div>
   <h2>Chapter 1 のゴール</h2>
   <p style="margin: 30px 0;"><strong class="hl">「AIエージェントとは結局なにか？」</strong> という問いに、</p>
@@ -255,7 +255,7 @@
 
 <!-- 03: Check-in（巻き込み） -->
 <div class="slide interactive">
-  <div class="slide-num">03 / 38</div>
+  <div class="slide-num">3 / 41</div>
   <div class="slide-time">0:02</div>
   <div class="icon">💬</div>
   <h2 style="text-align:center;">Check-in</h2>
@@ -267,7 +267,7 @@
 
 <!-- 04: アジェンダ -->
 <div class="slide">
-  <div class="slide-num">04 / 38</div>
+  <div class="slide-num">4 / 41</div>
   <div class="slide-time">0:03</div>
   <h2>Chapter 1 のアジェンダ</h2>
   <ol style="margin-top: 20px;">
@@ -288,7 +288,7 @@
 
 <!-- 05: シナリオ紹介 -->
 <div class="slide">
-  <div class="slide-num">05 / 38</div>
+  <div class="slide-num">5 / 41</div>
   <div class="slide-time">0:04</div>
   <h2>Ch1-2のシナリオ：社内ITヘルプデスクAI</h2>
   <div class="cards cards-2" style="margin-top: 20px;">
@@ -311,7 +311,7 @@
 
 <!-- 06: Section 1-1 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">06 / 38</div>
+  <div class="slide-num">6 / 41</div>
   <div class="slide-time">0:07</div>
   <div class="bar"></div>
   <div class="left">
@@ -324,7 +324,7 @@
 
 <!-- 07: AI進化の3フェーズ -->
 <div class="slide">
-  <div class="slide-num">07 / 38</div>
+  <div class="slide-num">7 / 41</div>
   <div class="slide-time">0:08</div>
   <h2>AIの進化を「フェーズ」で捉える</h2>
   <div class="cards" style="margin-top: 20px;">
@@ -352,7 +352,7 @@
 
 <!-- 08: AGI・ASI -->
 <div class="slide">
-  <div class="slide-num">08 / 38</div>
+  <div class="slide-num">8 / 41</div>
   <div class="slide-time">0:10</div>
   <h2>AGI・ASIの位置づけ</h2>
   <table>
@@ -368,7 +368,7 @@
 
 <!-- 09: 生成AIの種類 -->
 <div class="slide">
-  <div class="slide-num">09 / 38</div>
+  <div class="slide-num">9 / 41</div>
   <div class="slide-time">0:12</div>
   <h2>生成AI（Generative AI）の種類</h2>
   <p>入力された内容をもとに、新しいデータを生み出すAI</p>
@@ -388,7 +388,7 @@
 
 <!-- 10: 機械学習・ディープラーニング・LLM -->
 <div class="slide">
-  <div class="slide-num">10 / 38</div>
+  <div class="slide-num">10 / 41</div>
   <div class="slide-time">0:14</div>
   <h2>機械学習 → ディープラーニング → LLM</h2>
   <div class="diagram-stub">
@@ -403,9 +403,96 @@
   <div class="slide-footer"><span></span><span>1-1 生成AIの基礎</span></div>
 </div>
 
-<!-- 11: 出題ポイント 1-1 -->
+<!-- 11: トークンとコスト -->
 <div class="slide">
-  <div class="slide-num">11 / 38</div>
+  <div class="slide-num">11 / 41</div>
+  <div class="slide-time">0:16</div>
+  <h2>★ トークンとコスト — LLMの「課金単位」</h2>
+  <div class="cards cards-2" style="margin-top: 16px;">
+    <div class="card">
+      <div class="phase">トークンとは</div>
+      <div class="head">テキストの最小処理単位</div>
+      <div class="body">
+        LLMはテキストを<strong>トークン</strong>という単位で分割して処理する。<br><br>
+        • 英語: "Hello" = 1トークン<br>
+        • 日本語: 「こんにちは」≈ 5〜8トークン<br>
+        • <strong>日本語は英語の2〜3倍のトークン数になりやすい</strong>
+      </div>
+    </div>
+    <div class="card">
+      <div class="phase">コストとの関係</div>
+      <div class="head">入力＋出力トークン数×単価</div>
+      <div class="body">
+        APIコストは<strong>「入力トークン数 + 出力トークン数」の合計</strong>で決まる。<br><br>
+        • 長いプロンプト → 入力コスト増<br>
+        • 長い回答 → 出力コスト増<br>
+        • <strong>ヘルプデスクAIでは「RAGで必要情報だけ渡す」設計がコスト管理の基本</strong>
+      </div>
+    </div>
+  </div>
+  <div class="exam-tip" style="margin-top: 16px;">
+    <div class="tag">出題ポイント</div>
+    <p style="font-size:15px;">「日本語は英語よりトークン数が多くなりやすい」「コストはトークン数×単価」の2点が頻出。「1文字=1トークン」は誤りなので注意。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 トークンとコスト</span></div>
+</div>
+
+<!-- 12: コンテキストウィンドウ -->
+<div class="slide">
+  <div class="slide-num">12 / 41</div>
+  <div class="slide-time">0:18</div>
+  <h2>★ コンテキストウィンドウ — AIが「一度に覚えられる量」</h2>
+  <div class="diagram-stub" style="margin: 16px 0;">
+    <div class="label">[図解推奨: 会話履歴・システムプロンプト・RAG検索結果が「窓」に収まるイメージ]</div>
+    <p style="font-size:14px; margin-top:8px;">コンテキストウィンドウ = 入力プロンプト全体（指示＋会話履歴＋検索結果）が収まる上限</p>
+  </div>
+  <div class="cards" style="margin-top: 8px;">
+    <div class="card">
+      <div class="phase">上限を超えると？</div>
+      <div class="head">古い情報が切り捨てられる</div>
+      <div class="body">長い会話では最初のやり取りが「見えなくなる」。AIが前の発言を「知らない」ように振る舞う原因。</div>
+    </div>
+    <div class="card">
+      <div class="phase">設計への影響</div>
+      <div class="head">RAGが必須になる理由</div>
+      <div class="body">マニュアル全文を毎回渡すのは非効率。必要な箇所だけを検索して渡すRAG設計でウィンドウを節約。</div>
+    </div>
+    <div class="card">
+      <div class="phase">選定観点</div>
+      <div class="head">長文処理なら大窓モデルを選ぶ</div>
+      <div class="body">Claude: 200K tokens / GPT-4o: 128K tokens。長い社内文書を一括処理するユースケースはコンテキスト長が選定基準になる。</div>
+    </div>
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 コンテキストウィンドウ</span></div>
+</div>
+
+<!-- 13: モデルルーティング -->
+<div class="slide">
+  <div class="slide-num">13 / 41</div>
+  <div class="slide-time">0:20</div>
+  <h2>★ モデルルーティング — コストと品質を両立する設計</h2>
+  <p style="font-size:18px; margin-bottom: 16px;">タスクの<strong>難易度に応じてLLMのグレードを振り分ける</strong>設計パターン</p>
+  <div class="cards cards-2" style="margin-bottom: 16px;">
+    <div class="card">
+      <div class="phase">軽量モデル（速い・安い）</div>
+      <div class="head">定型・単純なタスクに</div>
+      <div class="body">FAQ回答・分類・要約・短文翻訳<br>→ 応答速度が重要な場面・大量処理<br>例: GPT-4o mini, Claude Haiku</div>
+    </div>
+    <div class="card" style="background:#1A2B4A; color:#fff;">
+      <div class="phase" style="color:#EC4899;">高精度モデル（遅い・高い）</div>
+      <div class="head" style="color:#fff;">複雑・判断が必要なタスクに</div>
+      <div class="body" style="color:#FBF8F3;">複雑な推論・長文生成・例外判断<br>→ 正確性が重要な場面・低頻度処理<br>例: GPT-4o, Claude Opus</div>
+    </div>
+  </div>
+  <div class="note">
+    <span class="label">ヘルプデスクAIでの実例</span>　パスワードリセット（FAQ一致）→ 軽量モデル / 複数部門にまたがる複雑な障害対応 → 高精度モデル。<strong>1エージェントが両モデルを使い分ける</strong>設計が可能。
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 モデルルーティング</span></div>
+</div>
+
+<!-- 14: 出題ポイント 1-1 -->
+<div class="slide">
+  <div class="slide-num">14 / 41</div>
   <div class="slide-time">0:16</div>
   <div class="exam-tip">
     <div class="tag">出題予測 ★</div>
@@ -428,7 +515,7 @@
 
 <!-- 12: Section 1-2 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">12 / 38</div>
+  <div class="slide-num">15 / 41</div>
   <div class="slide-time">0:17</div>
   <div class="bar"></div>
   <div class="left">
@@ -441,7 +528,7 @@
 
 <!-- 13: AIエージェントとは -->
 <div class="slide">
-  <div class="slide-num">13 / 38</div>
+  <div class="slide-num">16 / 41</div>
   <div class="slide-time">0:18</div>
   <h2>「使っている」と「導入する」は何が違う？</h2>
   <table>
@@ -458,7 +545,7 @@
 
 <!-- 14: 三位一体モデル（頭脳・記憶・手足） -->
 <div class="slide">
-  <div class="slide-num">14 / 38</div>
+  <div class="slide-num">17 / 41</div>
   <div class="slide-time">0:20</div>
   <h2>★ AIエージェントの三位一体モデル</h2>
   <div class="trinity">
@@ -489,7 +576,7 @@
 
 <!-- 15: 自律性の4段階 -->
 <div class="slide">
-  <div class="slide-num">15 / 38</div>
+  <div class="slide-num">18 / 41</div>
   <div class="slide-time">0:23</div>
   <h2>★ 自律性の4段階（どこまで任せるか）</h2>
   <div class="level-row">
@@ -522,7 +609,7 @@
 
 <!-- 16: 問いかけ（巻き込み） -->
 <div class="slide interactive">
-  <div class="slide-num">16 / 38</div>
+  <div class="slide-num">19 / 41</div>
   <div class="slide-time">0:26</div>
   <div class="icon">🤔</div>
   <h2 style="text-align:center;">あなたの業務で…</h2>
@@ -535,7 +622,7 @@
 
 <!-- 17: ヘルプデスクAIで三位一体を考える -->
 <div class="slide">
-  <div class="slide-num">17 / 38</div>
+  <div class="slide-num">20 / 41</div>
   <div class="slide-time">0:28</div>
   <h2>シナリオで考える：ヘルプデスクAIの三位一体</h2>
   <table>
@@ -549,7 +636,7 @@
 
 <!-- 18: 出題ポイント 1-2 -->
 <div class="slide">
-  <div class="slide-num">18 / 38</div>
+  <div class="slide-num">21 / 41</div>
   <div class="slide-time">0:30</div>
   <div class="exam-tip">
     <div class="tag">出題予測 ★★★</div>
@@ -568,7 +655,7 @@
 
 <!-- 19: Section 1-3 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">19 / 38</div>
+  <div class="slide-num">22 / 41</div>
   <div class="slide-time">0:31</div>
   <div class="bar"></div>
   <div class="left">
@@ -581,7 +668,7 @@
 
 <!-- 20: 3つの起動タイプ -->
 <div class="slide">
-  <div class="slide-num">20 / 38</div>
+  <div class="slide-num">23 / 41</div>
   <div class="slide-time">0:32</div>
   <h2>3つの起動タイプ（何がきっかけで動くか）</h2>
   <div class="cards">
@@ -609,7 +696,7 @@
 
 <!-- 21: ヘルプデスクAIでの起動タイプ設計 -->
 <div class="slide">
-  <div class="slide-num">21 / 38</div>
+  <div class="slide-num">24 / 41</div>
   <div class="slide-time">0:35</div>
   <h2>ヘルプデスクAI：起動タイプの設計</h2>
   <table style="margin-top: 16px;">
@@ -629,7 +716,7 @@
 
 <!-- 22: Section 1-4 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">22 / 38</div>
+  <div class="slide-num">25 / 41</div>
   <div class="slide-time">0:38</div>
   <div class="bar"></div>
   <div class="left">
@@ -642,7 +729,7 @@
 
 <!-- 23: RPA vs AIエージェント -->
 <div class="slide">
-  <div class="slide-num">23 / 38</div>
+  <div class="slide-num">26 / 41</div>
   <div class="slide-time">0:39</div>
   <h2>RPA vs AIエージェント</h2>
   <p style="font-size:16px; margin-bottom:8px;">違いの本質：<strong class="hl">「思考や解釈を行う能力の有無」</strong></p>
@@ -661,7 +748,7 @@
 
 <!-- 24: ハイパーオートメーション -->
 <div class="slide">
-  <div class="slide-num">24 / 38</div>
+  <div class="slide-num">27 / 41</div>
   <div class="slide-time">0:41</div>
   <h2>ハイパーオートメーション — 「いいとこ取り」設計</h2>
   <p style="font-size:16px; margin-bottom:8px;">1つのプロセスの中に「定型ステップ」と「判断ステップ」が混在する → 最適な技術を割り当てる</p>
@@ -684,7 +771,7 @@
 
 <!-- 25: Section 1-5 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">25 / 38</div>
+  <div class="slide-num">28 / 41</div>
   <div class="slide-time">0:45</div>
   <div class="bar"></div>
   <div class="left">
@@ -697,7 +784,7 @@
 
 <!-- 26: MCPとは -->
 <div class="slide">
-  <div class="slide-num">26 / 38</div>
+  <div class="slide-num">29 / 41</div>
   <div class="slide-time">0:46</div>
   <h2>MCP（Model Context Protocol）とは</h2>
   <p style="font-size: 20px; margin: 20px 0;"><strong class="hl">AIエージェントと外部ツールの接続を「共通の規格」で行えるようにする仕組み</strong></p>
@@ -714,7 +801,7 @@
 
 <!-- 27: MCPの意義（M×N問題） -->
 <div class="slide">
-  <div class="slide-num">27 / 38</div>
+  <div class="slide-num">30 / 41</div>
   <div class="slide-time">0:49</div>
   <h2>MCPが解決する課題：M×N問題</h2>
   <div class="cards cards-2">
@@ -740,7 +827,7 @@
 
 <!-- 28: Section 1-6 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">28 / 38</div>
+  <div class="slide-num">31 / 41</div>
   <div class="slide-time">0:52</div>
   <div class="bar"></div>
   <div class="left">
@@ -753,7 +840,7 @@
 
 <!-- 29: 定量/定性メリット + ROI/TCO -->
 <div class="slide">
-  <div class="slide-num">29 / 38</div>
+  <div class="slide-num">32 / 41</div>
   <div class="slide-time">0:53</div>
   <h2>導入価値の評価フレームワーク</h2>
   <div class="cards cards-2" style="margin-top:16px;">
@@ -782,7 +869,7 @@
 
 <!-- 30: Section 1-7 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">30 / 38</div>
+  <div class="slide-num">33 / 41</div>
   <div class="slide-time">0:57</div>
   <div class="bar"></div>
   <div class="left">
@@ -795,7 +882,7 @@
 
 <!-- 31: 4カテゴリリスク -->
 <div class="slide">
-  <div class="slide-num">31 / 38</div>
+  <div class="slide-num">34 / 41</div>
   <div class="slide-time">0:58</div>
   <h2>★ 4カテゴリのリスク（公式テキスト準拠）</h2>
   <table>
@@ -816,7 +903,7 @@
 
 <!-- 32: Section 1-8 扉 -->
 <div class="slide section-divider">
-  <div class="slide-num">32 / 38</div>
+  <div class="slide-num">35 / 41</div>
   <div class="slide-time">1:02</div>
   <div class="bar"></div>
   <div class="left">
@@ -829,7 +916,7 @@
 
 <!-- 33: 3つの進化軸 -->
 <div class="slide">
-  <div class="slide-num">33 / 38</div>
+  <div class="slide-num">36 / 41</div>
   <div class="slide-time">1:03</div>
   <h2>2026年以降の生成AI：3つの進化軸</h2>
   <div class="cards">
@@ -860,7 +947,7 @@
 
 <!-- 34: 章まとめ -->
 <div class="slide">
-  <div class="slide-num">34 / 38</div>
+  <div class="slide-num">37 / 41</div>
   <div class="slide-time">1:06</div>
   <h2>Chapter 1 まとめ</h2>
   <table>
@@ -879,7 +966,7 @@
 
 <!-- 35: 確認小問 -->
 <div class="slide interactive">
-  <div class="slide-num">35 / 38</div>
+  <div class="slide-num">38 / 41</div>
   <div class="slide-time">1:08</div>
   <div class="icon">📝</div>
   <h2 style="text-align:center;">Quick Check</h2>
@@ -892,7 +979,7 @@
 
 <!-- 36: 講師Bからのコメント -->
 <div class="slide">
-  <div class="slide-num">36 / 38</div>
+  <div class="slide-num">39 / 41</div>
   <div class="slide-time">1:09</div>
   <h2>💬 講師Bから一言</h2>
   <div class="note" style="font-size: 18px; line-height: 1.8; padding: 30px;">
@@ -906,7 +993,7 @@
 
 <!-- 37: Chapter 2 への接続 -->
 <div class="slide">
-  <div class="slide-num">37 / 38</div>
+  <div class="slide-num">40 / 41</div>
   <div class="slide-time">1:10</div>
   <h2>次は… Chapter 2「業務の基礎」</h2>
   <p style="font-size: 22px; margin: 24px 0;"><strong>AIエージェントに任せる業務を、どう"見える化"するか？</strong></p>
@@ -924,7 +1011,7 @@
 
 <!-- 38: 休憩 -->
 <div class="slide cover">
-  <div class="slide-num">38 / 38</div>
+  <div class="slide-num">41 / 41</div>
   <div class="slide-time">1:12</div>
   <div class="lead">— BREAK —</div>
   <h1>10分休憩</h1>
