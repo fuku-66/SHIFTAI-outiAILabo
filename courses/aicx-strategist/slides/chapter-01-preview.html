@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>AICX対策講座 Ch1 スライド案 - 生成AIとAIエージェントの基礎</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif; }
+  body { background: #2a2a2a; color: #1A2B4A; }
+
+  /* ===== レイアウト ===== */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; height: 50px;
+    background: rgba(26,43,74,0.95); color: #fff; z-index: 100;
+    display: flex; align-items: center; padding: 0 20px; justify-content: space-between;
+    font-size: 13px;
+  }
+  .header .nav { display: flex; gap: 8px; align-items: center; }
+  .header button {
+    background: #EC4899; color: #fff; border: none; padding: 6px 14px; border-radius: 4px;
+    cursor: pointer; font-size: 13px;
+  }
+  .header button:disabled { background: #555; cursor: not-allowed; }
+  .header .counter { color: #FBF8F3; font-weight: bold; }
+  .header .toggle { background: #1A2B4A; border: 1px solid #EC4899; }
+
+  /* スライド一覧 */
+  .slides { padding: 70px 20px 40px; max-width: 1280px; margin: 0 auto; }
+  .grid-mode .slides { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 1600px; }
+
+  /* スライド本体 (16:9) */
+  .slide {
+    position: relative; width: 100%; aspect-ratio: 16/9; background: #FBF8F3;
+    border-radius: 8px; margin-bottom: 30px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    padding: 40px 60px; display: flex; flex-direction: column;
+  }
+  .grid-mode .slide { margin-bottom: 0; padding: 20px 30px; font-size: 0.7em; }
+
+  .slide-num {
+    position: absolute; top: 12px; right: 20px;
+    font-size: 11px; color: #8B7355; font-weight: bold;
+  }
+  .slide-time {
+    position: absolute; top: 12px; left: 20px;
+    font-size: 11px; color: #8B7355;
+  }
+  .slide-footer {
+    position: absolute; bottom: 12px; left: 60px; right: 60px;
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: #8B7355;
+  }
+  .grid-mode .slide-footer { left: 30px; right: 30px; font-size: 9px; }
+
+  /* テキストスタイル */
+  h1 { font-size: 56px; color: #1A2B4A; line-height: 1.3; }
+  h2 { font-size: 36px; color: #1A2B4A; margin-bottom: 24px; font-weight: 700; }
+  h3 { font-size: 24px; color: #EC4899; margin-bottom: 16px; font-weight: 600; }
+  p { font-size: 20px; line-height: 1.7; color: #333; margin-bottom: 12px; }
+  ul, ol { padding-left: 28px; }
+  li { font-size: 18px; line-height: 1.8; color: #333; margin-bottom: 8px; }
+  strong { color: #1A2B4A; font-weight: 700; }
+  .hl { background: linear-gradient(transparent 60%, rgba(236,72,153,0.3) 60%); }
+
+  /* ===== スライドバリエーション ===== */
+
+  /* カバー */
+  .cover { background: linear-gradient(135deg, #1A2B4A 0%, #2d4275 100%); color: #fff; justify-content: center; align-items: center; text-align: center; }
+  .cover h1 { color: #fff; font-size: 72px; }
+  .cover .lead { color: #EC4899; font-size: 20px; letter-spacing: 4px; margin-bottom: 30px; }
+  .cover .sub { color: #FBF8F3; font-size: 18px; margin-top: 30px; }
+
+  /* セクション扉（ELITE v6 風） */
+  .section-divider { padding: 0; flex-direction: row; align-items: center; }
+  .section-divider .bar { width: 6px; height: 240px; background: #1A2B4A; margin-left: 60px; }
+  .section-divider .left { padding: 60px; flex: 1; }
+  .section-divider .right { width: 35%; height: 100%; background: linear-gradient(135deg, #EC4899 0%, #f472b6 100%); }
+  .section-divider .num { font-size: 140px; color: #1A2B4A; line-height: 1; font-weight: 700; }
+  .section-divider .tag { font-size: 14px; color: #8B7355; letter-spacing: 4px; margin: 20px 0 12px; }
+  .section-divider .title-jp { font-size: 42px; color: #1A2B4A; font-weight: 700; }
+
+  /* 巻き込みスライド（Check-in / 問いかけ） */
+  .interactive { background: linear-gradient(135deg, #FBF8F3 0%, #fce7f3 100%); border: 3px solid #EC4899; justify-content: center; }
+  .interactive .icon { font-size: 64px; margin-bottom: 16px; }
+  .interactive .chat-tag { display: inline-block; background: #EC4899; color: #fff; padding: 6px 18px; border-radius: 20px; font-size: 14px; margin-top: 24px; }
+
+  /* 出題ポイント */
+  .exam-tip { background: #FFF9E6; border-left: 8px solid #F59E0B; padding: 30px 40px; margin: 12px 0; border-radius: 4px; }
+  .exam-tip h3 { color: #B45309; }
+  .exam-tip .tag { display: inline-block; background: #F59E0B; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 12px; }
+
+  /* 比較表 */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #E5E7EB; font-size: 16px; }
+  th { background: #1A2B4A; color: #fff; }
+  tr:nth-child(even) td { background: #f9f5ef; }
+
+  /* 図解枠 */
+  .diagram-stub { background: #f0eee8; border: 2px dashed #8B7355; padding: 30px; text-align: center; margin: 20px 0; border-radius: 4px; }
+  .diagram-stub .label { color: #8B7355; font-size: 13px; font-weight: bold; }
+
+  /* カード */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+  .card { background: #fff; border: 2px solid #1A2B4A; padding: 16px; border-radius: 6px; }
+  .card .phase { color: #EC4899; font-size: 11px; font-weight: bold; letter-spacing: 2px; }
+  .card .head { color: #1A2B4A; font-size: 18px; font-weight: 700; margin: 4px 0 8px; }
+  .card .body { font-size: 13px; color: #555; line-height: 1.6; }
+
+  /* 三位一体モデル */
+  .trinity { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 20px 0; }
+  .trinity .comp { background: linear-gradient(135deg, #1A2B4A, #2d4275); color: #fff; padding: 20px; border-radius: 8px; text-align: center; }
+  .trinity .comp .icon-lg { font-size: 40px; margin-bottom: 8px; }
+  .trinity .comp .jp { font-size: 28px; font-weight: 700; margin: 4px 0; }
+  .trinity .comp .sub-jp { font-size: 12px; color: #EC4899; letter-spacing: 2px; }
+  .trinity .comp .desc { font-size: 13px; line-height: 1.6; margin-top: 8px; }
+
+  /* 自律性レベル */
+  .level-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .level-row .lv { padding: 14px; border-radius: 6px; border: 2px solid; text-align: center; }
+  .lv-1 { border-color: #94a3b8; background: #f1f5f9; }
+  .lv-2 { border-color: #60a5fa; background: #eff6ff; }
+  .lv-3 { border-color: #f59e0b; background: #fffbeb; }
+  .lv-4 { border-color: #EC4899; background: #fdf2f8; }
+  .lv .lv-num { font-size: 10px; font-weight: bold; color: #8B7355; letter-spacing: 1px; }
+  .lv .lv-name { font-size: 18px; font-weight: 700; color: #1A2B4A; margin: 4px 0; }
+  .lv .lv-desc { font-size: 12px; color: #555; line-height: 1.5; }
+
+  /* 注釈ボックス */
+  .note { background: #fef2f8; border: 1px solid #EC4899; padding: 16px 20px; border-radius: 6px; margin-top: 16px; font-size: 14px; }
+  .note .label { color: #EC4899; font-weight: bold; font-size: 12px; }
+
+  /* 一括表示時のサイズ調整 */
+  .grid-mode h1 { font-size: 36px; }
+  .grid-mode h2 { font-size: 22px; margin-bottom: 12px; }
+  .grid-mode h3 { font-size: 16px; }
+  .grid-mode p { font-size: 12px; }
+  .grid-mode li { font-size: 11px; }
+  .grid-mode th, .grid-mode td { font-size: 10px; padding: 6px 8px; }
+  .grid-mode .section-divider .num { font-size: 80px; }
+  .grid-mode .section-divider .title-jp { font-size: 24px; }
+  .grid-mode .cover h1 { font-size: 40px; }
+
+  /* ===== カルーセルモード ===== */
+  body.carousel-mode .slides {
+    padding: 70px 0 0;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 70px);
+  }
+  body.carousel-mode .slide {
+    display: none;
+    width: min(900px, 95vw);
+    margin: 20px auto 60px;
+  }
+  body.carousel-mode .slide.active {
+    display: flex;
+  }
+
+  /* カルーセルナビゲーション */
+  .carousel-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(26,43,74,0.95);
+    padding: 10px 20px;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  body.carousel-mode .carousel-nav { display: flex; }
+  .carousel-nav button {
+    background: #EC4899; color: #fff; border: none;
+    padding: 8px 20px; border-radius: 4px; cursor: pointer;
+    font-size: 14px; font-weight: bold;
+  }
+  .carousel-nav button:disabled { background: #444; cursor: not-allowed; }
+  .carousel-nav .slide-counter {
+    color: #fff; font-size: 14px; font-weight: bold;
+    min-width: 80px; text-align: center;
+  }
+  .carousel-nav .progress {
+    flex: 1; max-width: 300px;
+    height: 4px; background: #444; border-radius: 2px; overflow: hidden;
+  }
+  .carousel-nav .progress-bar {
+    height: 100%; background: #EC4899; transition: width 0.2s;
+  }
+
+  /* キーボードヒント */
+  .kbd-hint {
+    position: fixed; bottom: 60px; right: 16px;
+    font-size: 11px; color: #888;
+    pointer-events: none;
+  }
+  body.carousel-mode .kbd-hint { display: block; }
+  .kbd-hint { display: none; }
+</style>
+</head>
+<body class="carousel-mode">
+
+<div class="header">
+  <div class="title"><strong>AICX対策講座 Ch1 スライド案</strong>｜生成AIとAIエージェントの基礎（60分・講師A）</div>
+  <div class="nav">
+    <span class="counter" id="counter">— / —</span>
+    <button class="toggle" onclick="toggleMode()">一覧表示</button>
+  </div>
+</div>
+
+<div class="carousel-nav">
+  <button id="prevBtn" onclick="go(-1)" disabled>◀ 前へ</button>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <span class="slide-counter" id="slideCounter">1 / —</span>
+  <button id="nextBtn" onclick="go(1)">次へ ▶</button>
+</div>
+
+<div class="kbd-hint">← → キーでも操作できます</div>
+
+<div class="slides" id="slides">
+
+<!-- ========== オリエンテーション部分 ========== -->
+
+<!-- 01: Section Divider Chapter 1 -->
+<div class="slide section-divider">
+  <div class="slide-num">01 / 38</div>
+  <div class="slide-time">0:00</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">01</div>
+    <div class="tag">CHAPTER</div>
+    <div class="title-jp">生成AIと<br>AIエージェントの基礎</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 02: ゴール -->
+<div class="slide">
+  <div class="slide-num">02 / 38</div>
+  <div class="slide-time">0:00</div>
+  <h2>Chapter 1 のゴール</h2>
+  <p style="margin: 30px 0;"><strong class="hl">「AIエージェントとは結局なにか？」</strong> という問いに、</p>
+  <ul>
+    <li>従来の生成AI（ChatGPT等）との違いを<strong>30秒</strong>で説明できる</li>
+    <li>導入の<strong>メリットとリスク</strong>を経営層にも現場にも伝えられる</li>
+    <li><strong>「推進者として説明できる」</strong>レベルの理解を持つ</li>
+  </ul>
+  <div class="note" style="margin-top: 30px;">
+    <span class="label">この章のスタンス</span>　技術の詳細に深入りせず、ストラテジストとして必要な「説明力」を作る
+  </div>
+  <div class="slide-footer"><span>AICX対策講座</span><span>Chapter 1 ゴール</span></div>
+</div>
+
+<!-- 03: Check-in（巻き込み） -->
+<div class="slide interactive">
+  <div class="slide-num">03 / 38</div>
+  <div class="slide-time">0:02</div>
+  <div class="icon">💬</div>
+  <h2 style="text-align:center;">Check-in</h2>
+  <p style="text-align:center; font-size: 28px; margin: 20px 0;"><strong>AIエージェントを<br>使ったことはありますか？</strong></p>
+  <p style="text-align:center;">① ある（業務で使ってる）　② 触ったことはある　③ まだない</p>
+  <div style="text-align:center;"><div class="chat-tag">💬 番号でチャットに送ってください</div></div>
+  <div class="slide-footer"><span></span><span>受講者の現在地把握</span></div>
+</div>
+
+<!-- 04: アジェンダ -->
+<div class="slide">
+  <div class="slide-num">04 / 38</div>
+  <div class="slide-time">0:03</div>
+  <h2>Chapter 1 のアジェンダ</h2>
+  <ol style="margin-top: 20px;">
+    <li><strong>1-1 生成AIの基礎</strong>（10分）— フェーズ論・AGI/ASI・LLM</li>
+    <li><strong>1-2 AIエージェントの定義と構成要素</strong>（12分）★頻出</li>
+    <li><strong>1-3 起動タイプ</strong>（7分）— 指示型・定時型・条件型</li>
+    <li><strong>1-4 RPAとAIエージェントの違い</strong>（7分）— ハイパーオートメーション</li>
+    <li><strong>1-5 接続標準 MCP</strong>（7分）★新出論点</li>
+    <li><strong>1-6 導入の価値</strong>（5分）— ROI/TCO</li>
+    <li><strong>1-7 リスクと対策</strong>（5分）— 4カテゴリ</li>
+    <li><strong>1-8 発展トレンド</strong>（5分）— 3つの進化軸</li>
+  </ol>
+  <div class="note" style="margin-top: 16px;">
+    <span class="label">シナリオ</span>　Ch1-2は「社内ITヘルプデスクAI」で一貫。Ch3以降は章ごとに別シナリオに切り替わります
+  </div>
+  <div class="slide-footer"><span></span><span>60分・8セクション</span></div>
+</div>
+
+<!-- 05: シナリオ紹介 -->
+<div class="slide">
+  <div class="slide-num">05 / 38</div>
+  <div class="slide-time">0:04</div>
+  <h2>Ch1-2のシナリオ：社内ITヘルプデスクAI</h2>
+  <div class="cards cards-2" style="margin-top: 20px;">
+    <div class="card">
+      <div class="phase">現状</div>
+      <div class="head">月500件 / 担当3名</div>
+      <div class="body">全社3,000名の企業。月500件の問い合わせ（ネットワーク・パスワード・PCトラブル等）。<strong>約6割はFAQ対応</strong>で、月75時間を費やしている。</div>
+    </div>
+    <div class="card">
+      <div class="phase">目指す姿</div>
+      <div class="head">FAQ該当を自動回答</div>
+      <div class="body">AIエージェントでFAQ問い合わせを自動対応。担当者は複雑な案件に集中できる体制へ。</div>
+    </div>
+  </div>
+  <p style="margin-top: 20px;">📌 このシナリオで <strong>Chapter 1 → 2</strong> を一貫して扱います。Ch3以降は別シナリオに切り替わります。</p>
+  <div class="slide-footer"><span></span><span>Ch1-2 共通シナリオ</span></div>
+</div>
+
+<!-- ========== 1-1 生成AIの基礎 ========== -->
+
+<!-- 06: Section 1-1 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">06 / 38</div>
+  <div class="slide-time">0:07</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-1</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">生成AIの基礎</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 07: AI進化の3フェーズ -->
+<div class="slide">
+  <div class="slide-num">07 / 38</div>
+  <div class="slide-time">0:08</div>
+  <h2>AIの進化を「フェーズ」で捉える</h2>
+  <div class="cards" style="margin-top: 20px;">
+    <div class="card">
+      <div class="phase">PHASE 1 （〜2022）</div>
+      <div class="head">作るAI</div>
+      <div class="body">専門家が設計・構築。主役は研究者・エンジニア。AIは「依頼するもの」。AI活用の壁は<strong>「技術の壁」</strong>。</div>
+    </div>
+    <div class="card" style="border-color: #EC4899;">
+      <div class="phase" style="color:#EC4899;">PHASE 2 （2022〜）</div>
+      <div class="head">使うAI</div>
+      <div class="body">ChatGPT公開（2022年11月）で誰もが使える時代へ。主役はビジネスパーソン。多くの企業がいまこの途上。</div>
+    </div>
+    <div class="card" style="background:#1A2B4A; color:#fff;">
+      <div class="phase" style="color:#EC4899;">PHASE 3 （2024〜）</div>
+      <div class="head" style="color:#fff;">任せるAI</div>
+      <div class="body" style="color:#FBF8F3;">AIエージェントが主役。目標を与えると自律的に実行。<strong style="color:#EC4899;">本資格が扱う領域</strong></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top: 16px;">
+    <span class="label">押さえる視点</span>　技術の変化ではなく「誰が主役か」という構造の変化として捉える。ストラテジストの役割は「Phase 3を設計すること」
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 生成AIの基礎</span></div>
+</div>
+
+<!-- 08: AGI・ASI -->
+<div class="slide">
+  <div class="slide-num">08 / 38</div>
+  <div class="slide-time">0:10</div>
+  <h2>AGI・ASIの位置づけ</h2>
+  <table>
+    <tr><th>用語</th><th>意味</th><th>現状の位置づけ</th></tr>
+    <tr><td><strong>AGI</strong><br>(汎用人工知能)</td><td>料理も経営判断も医療診断もこなせる「なんでもできるAI」。人間と同等。</td><td>定義自体が研究者の間で未確定。身体性の問題（身体化認知論）もあり。</td></tr>
+    <tr><td><strong>ASI</strong><br>(人工超知性)</td><td>あらゆる面で人間をはるかに超える知能。SF的なイメージに近い。</td><td>AGIの先にある仮説の領域。現時点では確定的な前提にならない。</td></tr>
+  </table>
+  <div class="note" style="margin-top: 20px;">
+    <span class="label">ストラテジストの態度</span>　AGI・ASIを「夢物語」として退けず、かつ「確定した近未来」として語らない。「不確実性の高い長期シナリオ」として冷静に参照する
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 生成AIの基礎</span></div>
+</div>
+
+<!-- 09: 生成AIの種類 -->
+<div class="slide">
+  <div class="slide-num">09 / 38</div>
+  <div class="slide-time">0:12</div>
+  <h2>生成AI（Generative AI）の種類</h2>
+  <p>入力された内容をもとに、新しいデータを生み出すAI</p>
+  <div class="cards cards-4" style="margin-top: 20px;">
+    <div class="card"><div class="head">📝 テキスト</div><div class="body">チャットボット・要約・翻訳・コード生成</div></div>
+    <div class="card"><div class="head">🎨 画像</div><div class="body">スタイル変換・画像生成</div></div>
+    <div class="card"><div class="head">🎙️ 音声</div><div class="body">読み上げ・声の模倣・合成</div></div>
+    <div class="card"><div class="head">🎵 音楽</div><div class="body">楽曲生成・スタイル合成</div></div>
+  </div>
+  <div class="exam-tip">
+    <div class="tag">POINT（公式テキスト）</div>
+    <h3 style="font-size:18px;">真のインパクトは「非構造化データ」の活用</h3>
+    <p style="font-size:15px;">企業に眠るデータの<strong>8割以上は非構造化（議事録・チャット・企画書等）</strong>。生成AIはこれを処理可能にした。従来のDXが扱えなかった領域に手が届くようになったことが最大の変化。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 生成AIの基礎</span></div>
+</div>
+
+<!-- 10: 機械学習・ディープラーニング・LLM -->
+<div class="slide">
+  <div class="slide-num">10 / 38</div>
+  <div class="slide-time">0:14</div>
+  <h2>機械学習 → ディープラーニング → LLM</h2>
+  <div class="diagram-stub">
+    <div class="label">[図解推奨: ML→DL→LLMの包含関係をネスト図で]</div>
+    <p style="margin-top:8px; font-size:14px;">機械学習（教師あり/教師なし/強化学習） ⊃ ディープラーニング（特徴量自動抽出） ⊃ LLM</p>
+  </div>
+  <ul>
+    <li><strong>機械学習</strong>: データからパターンを学習。従来のAI（予測・識別）の多くはこの手法で開発</li>
+    <li><strong>ディープラーニング</strong>: ニューラルネットを多層化。<strong class="hl">「特徴量の自動抽出」</strong>が最大のブレイクスルー</li>
+    <li><strong>LLM（大規模言語モデル）</strong>: 「この文脈の次に来る最も自然な言葉」を確率的に予測する仕組み。予測の繰り返しで文章全体を生成。</li>
+  </ul>
+  <div class="slide-footer"><span></span><span>1-1 生成AIの基礎</span></div>
+</div>
+
+<!-- 11: 出題ポイント 1-1 -->
+<div class="slide">
+  <div class="slide-num">11 / 38</div>
+  <div class="slide-time">0:16</div>
+  <div class="exam-tip">
+    <div class="tag">出題予測 ★</div>
+    <h3>このセクションの頻出ポイント</h3>
+    <ul style="margin-top:10px;">
+      <li>LLMの<strong>動作原理</strong>（次に来る単語を確率的に予測。「予測を繰り返す」だけ）</li>
+      <li><strong>ハルシネーション</strong>：事実でない情報を自信満々に生成する現象。AIの欠陥ではなく構造的特性</li>
+      <li><strong>トークン</strong>とコストの関係（日本語は1文字≒1〜2トークン。英語より割高）</li>
+      <li><strong>コンテキストウィンドウ</strong>：AIが一度に参照できるテキスト量の上限</li>
+      <li>主要モデルの選定観点（精度 / コスト / 速度 / コンテキスト長）</li>
+    </ul>
+  </div>
+  <div class="note" style="margin-top: 16px;">
+    <span class="label">混同しやすい</span>　「機械学習」と「ディープラーニング」と「生成AI」の包含関係。生成AIは出力タイプ、ディープラーニングは技術手法
+  </div>
+  <div class="slide-footer"><span></span><span>1-1 出題ポイント</span></div>
+</div>
+
+<!-- ========== 1-2 AIエージェントの定義と構成要素 ========== -->
+
+<!-- 12: Section 1-2 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">12 / 38</div>
+  <div class="slide-time">0:17</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-2</div>
+    <div class="tag">SECTION ★頻出</div>
+    <div class="title-jp">AIエージェントの<br>定義と構成要素</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 13: AIエージェントとは -->
+<div class="slide">
+  <div class="slide-num">13 / 38</div>
+  <div class="slide-time">0:18</div>
+  <h2>「使っている」と「導入する」は何が違う？</h2>
+  <table>
+    <tr><th></th><th>ツールとしてのAI活用</th><th>エージェントとしてのAI活用</th></tr>
+    <tr><td><strong>動き方</strong></td><td>人間が指示→AIが1回答える</td><td><strong>目標を渡す→AIが自律的に進める</strong></td></tr>
+    <tr><td><strong>次のステップ</strong></td><td>人間が考えて次を指示</td><td><strong>AIが自分で判断・計画・実行</strong></td></tr>
+    <tr><td><strong>具体例</strong></td><td>「この領収書を経費分類して」→1作業を手伝う</td><td>領収書→分類→申請書作成→上長への承認依頼まで一気に完了</td></tr>
+  </table>
+  <div class="note" style="margin-top: 20px;">
+    <span class="label">定義（公式テキスト）</span>　<strong>AIエージェントとは、人間の指示を受けて、自律的に考え・判断し・行動することができるAIシステム</strong>。目標を与えられると、計画立案→ツール使用→実行→修正を自分で繰り返せる。
+  </div>
+  <div class="slide-footer"><span></span><span>1-2 定義と構成要素</span></div>
+</div>
+
+<!-- 14: 三位一体モデル（頭脳・記憶・手足） -->
+<div class="slide">
+  <div class="slide-num">14 / 38</div>
+  <div class="slide-time">0:20</div>
+  <h2>★ AIエージェントの三位一体モデル</h2>
+  <div class="trinity">
+    <div class="comp">
+      <div class="icon-lg">🧠</div>
+      <div class="jp">頭脳</div>
+      <div class="sub-jp">LLM</div>
+      <div class="desc">指示を理解し、判断・推論を行うエンジン。選ぶLLMでコスト・精度・速度が決まる</div>
+    </div>
+    <div class="comp">
+      <div class="icon-lg">📚</div>
+      <div class="jp">記憶</div>
+      <div class="sub-jp">ナレッジベース</div>
+      <div class="desc">業務マニュアル・FAQ・過去の対応履歴など社内情報。記憶がなければ汎用的な回答しかできない</div>
+    </div>
+    <div class="comp">
+      <div class="icon-lg">🦾</div>
+      <div class="jp">手足</div>
+      <div class="sub-jp">ツール連携</div>
+      <div class="desc">メール送信・DB更新・ファイル生成など外部システムを操作する機能。手足がなければ「考えて終わり」</div>
+    </div>
+  </div>
+  <div class="note">
+    <span class="label">★ 試験頻出（公式テキスト準拠）</span>　3要素のうち1つでも欠けると不完全。<strong>手足がない→高機能なFAQ検索ツールで終わる</strong>。記憶がない→毎回ゼロからのやりとり。
+  </div>
+  <div class="slide-footer"><span></span><span>1-2 三位一体モデル</span></div>
+</div>
+
+<!-- 15: 自律性の4段階 -->
+<div class="slide">
+  <div class="slide-num">15 / 38</div>
+  <div class="slide-time">0:23</div>
+  <h2>★ 自律性の4段階（どこまで任せるか）</h2>
+  <div class="level-row">
+    <div class="lv lv-1">
+      <div class="lv-num">LEVEL 1</div>
+      <div class="lv-name">反応型</div>
+      <div class="lv-desc">入力→即座に反応するだけ。Google翻訳のように、過去から学んだり自ら提案したりしない</div>
+    </div>
+    <div class="lv lv-2">
+      <div class="lv-num">LEVEL 2</div>
+      <div class="lv-name">支援型</div>
+      <div class="lv-desc">AIが回答案を提示、<strong>人間が最終判断</strong>。安全だが工数削減効果は限定的</div>
+    </div>
+    <div class="lv lv-3">
+      <div class="lv-num">LEVEL 3</div>
+      <div class="lv-name">協働型</div>
+      <div class="lv-desc"><strong>定型はAIが自動処理、複雑なものは人間にエスカレーション</strong>。実務での主流。工数大幅削減。</div>
+    </div>
+    <div class="lv lv-4">
+      <div class="lv-num">LEVEL 4</div>
+      <div class="lv-name">自律型</div>
+      <div class="lv-desc">目標を与えれば計画〜実行まで完遂。技術的には可能だが<strong>判断ミスのリスクが大きい</strong></div>
+    </div>
+  </div>
+  <div class="note">
+    <span class="label">実務の鉄則（公式テキスト）</span>　<strong>支援型→協働型の段階的引き上げ</strong>が基本。いきなり自律型を目指さない。「何を任せないか」の設計が同じくらい重要。
+  </div>
+  <div class="slide-footer"><span></span><span>1-2 自律性4段階</span></div>
+</div>
+
+<!-- 16: 問いかけ（巻き込み） -->
+<div class="slide interactive">
+  <div class="slide-num">16 / 38</div>
+  <div class="slide-time">0:26</div>
+  <div class="icon">🤔</div>
+  <h2 style="text-align:center;">あなたの業務で…</h2>
+  <p style="text-align:center; font-size: 24px; margin: 20px 0;"><strong>「頭脳・記憶・手足」のうち、<br>今あなたの業務で欠けているのはどれ？</strong></p>
+  <p style="text-align:center; font-size:16px; color:#555;">チャットに書いてみてください。（例: 「手足がない→考えるだけで終わる」）</p>
+  <div style="text-align:center;"><div class="chat-tag">💬 自分の業務に当てはめる</div></div>
+  <p style="text-align:center; font-size:14px; color:#8B7355; margin-top:20px;">💡 これがそのまま、Chapter 2 で扱う業務設計の入口になります</p>
+  <div class="slide-footer"><span></span><span>能動学習スイッチ</span></div>
+</div>
+
+<!-- 17: ヘルプデスクAIで三位一体を考える -->
+<div class="slide">
+  <div class="slide-num">17 / 38</div>
+  <div class="slide-time">0:28</div>
+  <h2>シナリオで考える：ヘルプデスクAIの三位一体</h2>
+  <table>
+    <tr><th>構成要素</th><th>ヘルプデスクAIではどう実装される？</th><th>欠けるとどうなるか</th></tr>
+    <tr><td><strong>頭脳（LLM）</strong></td><td>問い合わせ内容を理解し、FAQ該当かを判断。モデルルーティングで軽量LLMと高性能LLMを使い分け</td><td>ルール通りにしか動けない自動化ツールになる</td></tr>
+    <tr><td><strong>記憶（ナレッジ）</strong></td><td>ITマニュアル・FAQ・過去の対応履歴。社員固有の問いにも答えられる</td><td>毎回ゼロからのやりとり。汎用的な回答しかできない</td></tr>
+    <tr><td><strong>手足（ツール連携）</strong></td><td>Slackへの送信・チケット起票・社員DBへのアクセス</td><td>回答を生成するだけ。<strong>「高機能FAQ検索ツール」で止まる</strong></td></tr>
+  </table>
+  <div class="slide-footer"><span></span><span>1-2 定義と構成要素</span></div>
+</div>
+
+<!-- 18: 出題ポイント 1-2 -->
+<div class="slide">
+  <div class="slide-num">18 / 38</div>
+  <div class="slide-time">0:30</div>
+  <div class="exam-tip">
+    <div class="tag">出題予測 ★★★</div>
+    <h3>このセクションの頻出ポイント</h3>
+    <ul style="margin-top:10px;">
+      <li><strong>三位一体の3要素</strong>（頭脳・記憶・手足）の名称と役割を問う問題。<br>「メール送信できないのはどの要素が欠けているか」→ <strong>手足</strong></li>
+      <li><strong>自律性4段階</strong>の区別：支援型と協働型の違いは「AIが最終判断を含む意思決定を自律的に行っているか」</li>
+      <li>ツールとしてのAI活用 vs エージェントとしてのAI活用の違いを問う</li>
+      <li>「やり直しがきくかどうか」でAIに任せる範囲を設計する判断</li>
+    </ul>
+  </div>
+  <div class="slide-footer"><span></span><span>1-2 出題ポイント</span></div>
+</div>
+
+<!-- ========== 1-3 起動タイプ ========== -->
+
+<!-- 19: Section 1-3 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">19 / 38</div>
+  <div class="slide-time">0:31</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-3</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">AIエージェントの<br>起動タイプ</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 20: 3つの起動タイプ -->
+<div class="slide">
+  <div class="slide-num">20 / 38</div>
+  <div class="slide-time">0:32</div>
+  <h2>3つの起動タイプ（何がきっかけで動くか）</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="phase">TYPE 1</div>
+      <div class="head">指示型</div>
+      <div class="body">人間がリアルタイムに指示を出すことで動作。チャットや質問入力がきっかけ。<br>例: ChatGPTにプロンプトを入力する</div>
+    </div>
+    <div class="card" style="border-color:#EC4899; background:#fef2f8;">
+      <div class="phase" style="color:#EC4899;">TYPE 2</div>
+      <div class="head">定時型</div>
+      <div class="body">あらかじめ設定した時間に自動で動作。<strong>導入効果が見えやすい</strong>（実行タイミングと処理内容が固定のため）。<br>例: 毎朝8時にニュースを要約・配信</div>
+    </div>
+    <div class="card">
+      <div class="phase">TYPE 3</div>
+      <div class="head">条件型</div>
+      <div class="body">特定の出来事が発生したときに自動で動作。<strong>現場の通常業務フローをできるだけ変えずに組み込める</strong>のが強み。<br>例: 在庫が一定数を下回ったら発注書生成</div>
+    </div>
+  </div>
+  <div class="note" style="margin-top: 16px;">
+    <span class="label">見分けるポイント</span>　指示型 vs 条件型の区別：AIエージェントに<strong>直接依頼したかどうか</strong>。CRMへのデータ登録をきっかけに動くのは「条件型」（AIへの直接依頼ではない）
+  </div>
+  <div class="slide-footer"><span></span><span>1-3 起動タイプ</span></div>
+</div>
+
+<!-- 21: ヘルプデスクAIでの起動タイプ設計 -->
+<div class="slide">
+  <div class="slide-num">21 / 38</div>
+  <div class="slide-time">0:35</div>
+  <h2>ヘルプデスクAI：起動タイプの設計</h2>
+  <table style="margin-top: 16px;">
+    <tr><th>業務シーン</th><th>起動タイプ</th><th>設計の根拠</th></tr>
+    <tr><td>社員がチャットで「繋がらないので対処法を教えて」と質問</td><td><strong>指示型</strong></td><td>人間がリアルタイムにAIエージェントに直接問いかけている</td></tr>
+    <tr><td>社員が問い合わせメールを送信→AIが内容を分類・回答生成</td><td><strong>条件型</strong></td><td>メール受信というシステム上のイベント発生がきっかけ（AIへの直接依頼ではない）</td></tr>
+    <tr><td>毎朝8時に前日の未処理チケットを一覧化・担当者に通知</td><td><strong>定時型</strong></td><td>固定スケジュールで動く。効果検証もしやすい</td></tr>
+  </table>
+  <div class="exam-tip" style="margin-top: 16px;">
+    <div class="tag">出題予測</div>
+    <p style="font-size:15px;">「メール受信時に動くのは何型か」→ <strong>条件型</strong>。指示型と条件型の区別が問われる予測。「1つのエージェントが複数の起動タイプを持てるか」→ <strong>持てる</strong></p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-3 起動タイプ</span></div>
+</div>
+
+<!-- ========== 1-4 RPAとの違い ========== -->
+
+<!-- 22: Section 1-4 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">22 / 38</div>
+  <div class="slide-time">0:38</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-4</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">RPAと<br>AIエージェントの違い</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 23: RPA vs AIエージェント -->
+<div class="slide">
+  <div class="slide-num">23 / 38</div>
+  <div class="slide-time">0:39</div>
+  <h2>RPA vs AIエージェント</h2>
+  <p style="font-size:16px; margin-bottom:8px;">違いの本質：<strong class="hl">「思考や解釈を行う能力の有無」</strong></p>
+  <table>
+    <tr><th>観点</th><th>RPA</th><th>AIエージェント</th></tr>
+    <tr><td><strong>処理対象</strong></td><td>定型業務（手順が完全に決まっている）</td><td>非定型業務（文脈に応じた判断が必要）</td></tr>
+    <tr><td><strong>入力形式</strong></td><td>構造化データが得意（CSVや定型帳票）</td><td>非構造化データ（メール・チャット・自由記述）もOK</td></tr>
+    <tr><td><strong>例外処理</strong></td><td>想定外の入力で処理が止まる</td><td>文脈から推測して処理を続けられる</td></tr>
+    <tr><td><strong>精度</strong></td><td>ルールが正しければ<strong>100%正確</strong></td><td>確率的動作。ハルシネーションのリスクあり</td></tr>
+  </table>
+  <div class="note" style="margin-top:12px;">
+    <span class="label">判断基準（3つ）</span>　①例外的な判断が必要か？　②入力が定型か非構造化か？　③例外の発生頻度は？　→これで「定型処理 or LLM処理」を切り分ける
+  </div>
+  <div class="slide-footer"><span></span><span>1-4 RPAとの違い</span></div>
+</div>
+
+<!-- 24: ハイパーオートメーション -->
+<div class="slide">
+  <div class="slide-num">24 / 38</div>
+  <div class="slide-time">0:41</div>
+  <h2>ハイパーオートメーション — 「いいとこ取り」設計</h2>
+  <p style="font-size:16px; margin-bottom:8px;">1つのプロセスの中に「定型ステップ」と「判断ステップ」が混在する → 最適な技術を割り当てる</p>
+  <table>
+    <tr><th>STEP</th><th>業務内容</th><th>処理方式</th></tr>
+    <tr><td>1</td><td>受注メールから添付ファイル（発注書）を取得</td><td><strong>定型処理</strong>（メールサーバー操作。判断不要）</td></tr>
+    <tr><td>2</td><td>発注書の内容を読み取り、品目・数量・納期を抽出</td><td><strong>AI処理</strong>（取引先ごとに書式が違うためLLMが必要）</td></tr>
+    <tr><td>3</td><td>在庫データと照合し、納期の実現可能性を判断</td><td><strong>AI処理</strong>（在庫状況と発注内容の総合判断）</td></tr>
+    <tr><td>4</td><td>受注管理システムに抽出データを登録</td><td><strong>定型処理</strong>（決まったフィールドへの入力）</td></tr>
+    <tr><td>5</td><td>確認メールを送信</td><td><strong>定型処理</strong></td></tr>
+  </table>
+  <div class="exam-tip" style="margin-top:8px;">
+    <div class="tag">出題予測</div>
+    <p style="font-size:15px;">「次のうち定型処理が適切なのはどれか」のケース問題。AIエージェントを使うこと自体が目的になってはいけない。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-4 ハイパーオートメーション</span></div>
+</div>
+
+<!-- ========== 1-5 MCP ========== -->
+
+<!-- 25: Section 1-5 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">25 / 38</div>
+  <div class="slide-time">0:45</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-5</div>
+    <div class="tag">SECTION ★新出論点</div>
+    <div class="title-jp">エージェントの接続標準<br>MCP</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 26: MCPとは -->
+<div class="slide">
+  <div class="slide-num">26 / 38</div>
+  <div class="slide-time">0:46</div>
+  <h2>MCP（Model Context Protocol）とは</h2>
+  <p style="font-size: 20px; margin: 20px 0;"><strong class="hl">AIエージェントと外部ツールの接続を「共通の規格」で行えるようにする仕組み</strong></p>
+  <p>2024年11月にAnthropicがオープン標準として公開。APIが「ツールごとに専用の窓口がある」のに対し、MCPは「どのツールも共通の窓口フォーマットに統一する」仕組み。</p>
+  <div class="diagram-stub">
+    <div class="label">[図解推奨: AIエージェント ⇔ MCPサーバー ⇔ Slack / Google Drive / DB / etc. の3層構造]</div>
+    <p style="margin-top:8px; font-size:14px;">AIエージェント ←MCP→ Slack MCP / Calendar MCP / DB MCP / ...</p>
+  </div>
+  <div class="note">
+    <span class="label">たとえると</span>　USBの登場以前はプリンター用・カメラ用・キーボード用に端子がバラバラだった。USBが統一したように、<strong>MCPはAIの世界で同じことを実現しようとしている</strong>
+  </div>
+  <div class="slide-footer"><span></span><span>1-5 MCP</span></div>
+</div>
+
+<!-- 27: MCPの意義（M×N問題） -->
+<div class="slide">
+  <div class="slide-num">27 / 38</div>
+  <div class="slide-time">0:49</div>
+  <h2>MCPが解決する課題：M×N問題</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="phase">BEFORE（個別API接続）</div>
+      <div class="head">M×N通りの接続が必要</div>
+      <div class="body">AIモデル3種×ツール5種 = <strong>15通りの接続を個別に開発</strong>。AIもツールも増えるほど爆発的に増加。開発・保守コストが膨大。</div>
+    </div>
+    <div class="card" style="border-color:#EC4899;">
+      <div class="phase" style="color:#EC4899;">AFTER（MCP）</div>
+      <div class="head">M+N通りで済む</div>
+      <div class="body">3種+5種 = <strong>8通りの対応で完了</strong>。AIがMCPに対応 + ツールがMCPに対応するだけ。<br>+さらに強み：LLMが「今どんなツールが使えるか」を自動認識し、<strong>ツール選択もLLMが判断</strong></div>
+    </div>
+  </div>
+  <div class="exam-tip" style="margin-top: 16px;">
+    <div class="tag">出題予測</div>
+    <p style="font-size:15px;">MCPの<strong>正式名称・提唱企業・目的</strong>をセットで。「将来の拡張コスト」への影響がストラテジストにとって重要な理由も問われる予測。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-5 MCP</span></div>
+</div>
+
+<!-- ========== 1-6 導入の価値 ========== -->
+
+<!-- 28: Section 1-6 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">28 / 38</div>
+  <div class="slide-time">0:52</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-6</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">AIエージェント<br>導入の価値</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 29: 定量/定性メリット + ROI/TCO -->
+<div class="slide">
+  <div class="slide-num">29 / 38</div>
+  <div class="slide-time">0:53</div>
+  <h2>導入価値の評価フレームワーク</h2>
+  <div class="cards cards-2" style="margin-top:16px;">
+    <div class="card">
+      <div class="phase">定量的メリット（数値で測定できる）</div>
+      <div class="head">工数削減・コスト削減</div>
+      <div class="body">月75時間 × 時給3,000円 = 月22.5万円の工数削減（FAQ自動化分）。<br>非FAQ対応も45分→25分に短縮で追加67時間削減。<strong>合計142時間/月・年510万円</strong></div>
+    </div>
+    <div class="card">
+      <div class="phase">定性的メリット（数値化しにくい価値）</div>
+      <div class="head">体験向上・従業員解放</div>
+      <div class="body">①顧客体験：24時間365日対応・担当者による対応のばらつき解消<br>②従業員体験：反復作業から解放され付加価値の高い業務へ</div>
+    </div>
+  </div>
+  <table style="margin-top:12px; font-size:15px;">
+    <tr><th>ROI（投資対効果）</th><th>TCO（総所有コスト）</th></tr>
+    <tr><td>（510万 − 300万）÷ 300万 × 100 = <strong>約70%</strong>。投資回収 <strong>約7ヶ月</strong></td><td>API費用だけ見ると「安い」は落とし穴。初期構築費用・ナレッジ整備・プロンプト改善・監視保守も含めた<strong>全コストで判断</strong></td></tr>
+  </table>
+  <div class="note">
+    <span class="label">重要な視点</span>　ROI数字だけで判断しない。定量・定性・リスクの3つを揃えて報告することが経営層への提案の基本形
+  </div>
+  <div class="slide-footer"><span></span><span>1-6 導入の価値</span></div>
+</div>
+
+<!-- ========== 1-7 リスクと対策 ========== -->
+
+<!-- 30: Section 1-7 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">30 / 38</div>
+  <div class="slide-time">0:57</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-7</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">AIエージェントの<br>リスクと対策</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 31: 4カテゴリリスク -->
+<div class="slide">
+  <div class="slide-num">31 / 38</div>
+  <div class="slide-time">0:58</div>
+  <h2>★ 4カテゴリのリスク（公式テキスト準拠）</h2>
+  <table>
+    <tr><th>カテゴリ</th><th>内容</th><th>代表的な対策</th></tr>
+    <tr><td><strong>信頼性リスク</strong></td><td>AIの出力・判断が正確でないリスク。代表例：ハルシネーション（もっともらしい嘘を自信を持って生成）</td><td>RAG（参照すべき事実データに基づいて回答させる設計）</td></tr>
+    <tr><td><strong>形骸化リスク</strong></td><td>導入しても現場で使われなくなるリスク。操作しにくい・業務フローに合っていない・目的が伝わっていない</td><td>条件型起動で「使うためのひと手間」を減らす設計</td></tr>
+    <tr><td><strong>ブラックボックス化リスク</strong></td><td>誰が何を管理しているか分からない状態。「野良エージェント」の発生</td><td>管理台帳で利用目的・データ範囲・責任者を記録</td></tr>
+    <tr><td><strong>セキュリティ・倫理リスク</strong></td><td>情報漏洩・プロンプトインジェクション・バイアス・不公平な判断</td><td>入力チェック＋出力制限の多層的な対策（入力だけでは不十分）</td></tr>
+  </table>
+  <div class="exam-tip" style="margin-top:8px;">
+    <div class="tag">出題予測</div>
+    <p style="font-size:14px;">事例が「どのリスクカテゴリに該当するか」を判別させる問題。4つの特徴を正確に押さえる。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-7 リスクと対策</span></div>
+</div>
+
+<!-- ========== 1-8 発展トレンド ========== -->
+
+<!-- 32: Section 1-8 扉 -->
+<div class="slide section-divider">
+  <div class="slide-num">32 / 38</div>
+  <div class="slide-time">1:02</div>
+  <div class="bar"></div>
+  <div class="left">
+    <div class="num">1-8</div>
+    <div class="tag">SECTION</div>
+    <div class="title-jp">生成AIの<br>発展トレンド</div>
+  </div>
+  <div class="right"></div>
+</div>
+
+<!-- 33: 3つの進化軸 -->
+<div class="slide">
+  <div class="slide-num">33 / 38</div>
+  <div class="slide-time">1:03</div>
+  <h2>2026年以降の生成AI：3つの進化軸</h2>
+  <div class="cards">
+    <div class="card" style="border-color:#EC4899; background:#fdf2f8;">
+      <div class="phase" style="color:#EC4899;">トレンド 1</div>
+      <div class="head">エージェント化</div>
+      <div class="body">AIを「実行できる」ようにする。API連携・MCP・コンピュータブラウザ操作・フィジカルAIが支える潮流。AIの役割が「相談に答えること」→<strong>「業務を実行すること」</strong>へ</div>
+    </div>
+    <div class="card">
+      <div class="phase">トレンド 2</div>
+      <div class="head">ドメイン特化</div>
+      <div class="body">AIを「専門家」にする。RAG・ファインチューニング・パーソナライズ・検索連携の4手段。<strong>汎用AI vs 特化型AIの使い分け</strong>が企業の競争力に直結</div>
+    </div>
+    <div class="card">
+      <div class="phase">トレンド 3</div>
+      <div class="head">モデルの強化</div>
+      <div class="body">AIの「基礎能力」を上げる。モデル規模の拡大・マルチモーダル化・小型化・軽量化。エージェント化とドメイン特化の前提となる基盤能力の向上</div>
+    </div>
+  </div>
+  <div class="exam-tip" style="margin-top: 16px;">
+    <div class="tag">出題予測</div>
+    <p style="font-size:15px;">3つの進化軸の<strong>名称と内容の組み合わせ</strong>。「RAGはどのトレンドに分類されるか」→<strong>ドメイン特化</strong>。個々の技術用語よりも「何のためのトレンドか」で捉える。</p>
+  </div>
+  <div class="slide-footer"><span></span><span>1-8 発展トレンド</span></div>
+</div>
+
+<!-- ========== Chapter 1 まとめ ========== -->
+
+<!-- 34: 章まとめ -->
+<div class="slide">
+  <div class="slide-num">34 / 38</div>
+  <div class="slide-time">1:06</div>
+  <h2>Chapter 1 まとめ</h2>
+  <table>
+    <tr><th>セクション</th><th>押さえるべき1行</th></tr>
+    <tr><td>1-1 生成AIの基礎</td><td>現在は「使うAI」→「任せるAI」の境界点。本資格はPhase 3が主領域</td></tr>
+    <tr><td>1-2 構成要素 ★</td><td><strong>三位一体（頭脳・記憶・手足）</strong> + 自律性4段階（反応→支援→協働→自律）</td></tr>
+    <tr><td>1-3 起動タイプ</td><td><strong>指示型・定時型・条件型</strong>の3種。1エージェントが複数タイプを持てる</td></tr>
+    <tr><td>1-4 RPAとの違い</td><td>定型はRPA・非定型はAIエージェント。ハイパーオートメーションで「いいとこ取り」</td></tr>
+    <tr><td>1-5 MCP ★</td><td>Anthropic提唱の接続標準。M×N問題を解決。ツール選択もLLMが自動判断</td></tr>
+    <tr><td>1-6 導入の価値</td><td>定量（ROI/TCO）＋定性（顧客・従業員体験）＋リスクの3つを揃えて提案</td></tr>
+    <tr><td>1-7 リスクと対策</td><td><strong>信頼性・形骸化・ブラックボックス化・セキュリティ倫理</strong>の4カテゴリ</td></tr>
+    <tr><td>1-8 発展トレンド</td><td><strong>エージェント化・ドメイン特化・モデルの強化</strong>の3軸</td></tr>
+  </table>
+  <div class="slide-footer"><span></span><span>Chapter 1 まとめ</span></div>
+</div>
+
+<!-- 35: 確認小問 -->
+<div class="slide interactive">
+  <div class="slide-num">35 / 38</div>
+  <div class="slide-time">1:08</div>
+  <div class="icon">📝</div>
+  <h2 style="text-align:center;">Quick Check</h2>
+  <p style="text-align:center; font-size: 22px; margin: 24px 0;"><strong>AIエージェントの三位一体を<br>声に出して言ってみてください</strong></p>
+  <p style="text-align:center; font-size: 18px; color:#555;">（チャットに書いてもOK）</p>
+  <div style="text-align:center;"><div class="chat-tag">💬 頭脳（LLM）・記憶（ナレッジ）・手足（ツール連携）</div></div>
+  <p style="text-align:center; font-size:14px; color:#8B7355; margin-top:30px;">※ 試験で最も出やすいのが1-2の三位一体と自律性4段階です</p>
+  <div class="slide-footer"><span></span><span>定着確認</span></div>
+</div>
+
+<!-- 36: 講師Bからのコメント -->
+<div class="slide">
+  <div class="slide-num">36 / 38</div>
+  <div class="slide-time">1:09</div>
+  <h2>💬 講師Bから一言</h2>
+  <div class="note" style="font-size: 18px; line-height: 1.8; padding: 30px;">
+    <p>「Chapter 1で押さえた<strong>三位一体（頭脳・記憶・手足）</strong>と<strong>自律性4段階</strong>は、Chapter 2以降の業務設計でも繰り返し登場します。<br><br>
+    「何を任せるか」より「<strong>何を任せないか</strong>」の設計判断が、ストラテジストとしての本当の価値です。<br><br>
+    Chapter 6の5Dモデルでは、これらを業務全体に適用する方法を学びます」</p>
+  </div>
+  <p style="margin-top: 20px;">📌 講師Aと講師Bで、各章末に違う視点のコメントを入れていきます</p>
+  <div class="slide-footer"><span></span><span>講師B視点</span></div>
+</div>
+
+<!-- 37: Chapter 2 への接続 -->
+<div class="slide">
+  <div class="slide-num">37 / 38</div>
+  <div class="slide-time">1:10</div>
+  <h2>次は… Chapter 2「業務の基礎」</h2>
+  <p style="font-size: 22px; margin: 24px 0;"><strong>AIエージェントに任せる業務を、どう"見える化"するか？</strong></p>
+  <ul>
+    <li>業務の構造的理解（インプット・プロセス・アウトプット）</li>
+    <li>BPR（業務改革）の基礎・<strong>ECRS原則</strong> ★頻出</li>
+    <li>業務可視化の手法（業務フロー図・SIPOC・バリューストリームマップ）</li>
+    <li>引き続き<strong>「ヘルプデスクAI」シナリオ</strong>で学びます（Ch1-2は共通）</li>
+  </ul>
+  <div class="note" style="margin-top: 30px;">
+    <span class="label">講師B担当</span>　Chapter 2はビジネスサイドの視点が強くなります。技術寄りで考えていた頭を、業務側に切り替えていきましょう
+  </div>
+  <div class="slide-footer"><span></span><span>Chapter 2への接続</span></div>
+</div>
+
+<!-- 38: 休憩 -->
+<div class="slide cover">
+  <div class="slide-num">38 / 38</div>
+  <div class="slide-time">1:12</div>
+  <div class="lead">— BREAK —</div>
+  <h1>10分休憩</h1>
+  <div class="sub">次の章開始時刻：<strong style="color:#EC4899; font-size:32px;">12:05</strong></div>
+</div>
+
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const slideCounter = document.getElementById('slideCounter');
+  const progressBar = document.getElementById('progressBar');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+
+  counter.textContent = `全 ${slides.length} 枚`;
+
+  function updateCarousel() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    slideCounter.textContent = `${current + 1} / ${slides.length}`;
+    progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === slides.length - 1;
+    window.scrollTo(0, 0);
+  }
+
+  function go(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < slides.length) {
+      current = next;
+      updateCarousel();
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (document.body.classList.contains('carousel-mode')) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
+    }
+  });
+
+  function toggleMode() {
+    const isCarousel = document.body.classList.contains('carousel-mode');
+    if (isCarousel) {
+      document.body.classList.remove('carousel-mode');
+      document.body.classList.add('grid-mode');
+      slides.forEach(s => s.classList.remove('active'));
+      document.querySelector('.toggle').textContent = 'カルーセル表示';
+    } else {
+      document.body.classList.remove('grid-mode');
+      document.body.classList.add('carousel-mode');
+      updateCarousel();
+      document.querySelector('.toggle').textContent = '一覧表示';
+    }
+  }
+
+  // 初期化
+  updateCarousel();
+</script>
+
+</body>
+</html>
